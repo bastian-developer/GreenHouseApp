@@ -6,19 +6,44 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+
+    Button btnLogOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initUI();
+
+        btnLogOut.setOnClickListener(this);
     }
 
-    public void logout(View view) {
+    private void initUI(){
+
+        btnLogOut = findViewById(R.id.btnLogout);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+
+        if (id == R.id.btnLogout) {
+
+            logout();
+
+        }
+    }
+
+    public void logout() {
         //remove session and open log in screen
         SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
         sessionManagement.removeSession();
@@ -33,4 +58,5 @@ public class MainActivity extends AppCompatActivity {
         //startActivity(i, b);
         startActivity(i);
     }
+
 }

@@ -6,17 +6,59 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.controller.SessionManagement;
 import com.greenhouse.greenhouseapp.model.User;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
+    EditText etEmail, etPassword;
+    Button btnRegister, btnLogIn;
+    String email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        initUI();
+
+
+        btnRegister.setOnClickListener(this);
+        btnLogIn.setOnClickListener(this);
+    }
+
+    private void initUI(){
+
+
+        etPassword = findViewById(R.id.etPassword);
+        etEmail = findViewById(R.id.etEmail);
+
+
+        btnRegister = findViewById(R.id.btnRegister);
+        btnLogIn = findViewById(R.id.btnLogin);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
+        int id = v.getId();
+
+
+        if (id == R.id.btnLogin) {
+
+            login();
+
+        } else if (id == R.id.btnRegister) {
+            //Intent intent = new Intent(this, RegisterActivity.class);
+            //startActivity(intent);
+        }
+
     }
 
     @Override
@@ -42,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void login(View view) {
+    public void login() {
 
         User user = new User(666, "Satan", "sa@tan.com", "lol", "hell");
 

@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">GreenHouseApp</string>
+    <string name="text_name">Name</string>
+    <string name="text_password">Password</string>
+    <string name="text_repeat">Repeat Password</string>
+    <string name="text_sign_up">Sign Up</string>
+    <string name="text_register">Register</string>
+    <string name="text_already">Already have an account?</string>
+    <string name="text_log_in">Log In</string>
+    <string name="text_welcome">Log In</string>
+    <string name="text_create">Create Account</string>
+    <string name="text_email">Email</string>
+    <string name="text_crud_user">Users</string>
+    <string name="text_address">Address</string>
+    <string name="text_create_user">Create User</string>
+    <string name="text_search_user">Search</string>
+    <string name="text_edit_user">Edit User</string>
+    <string name="text_delete_user">Delete User</string>
+    <string name="text_id">Search by ID</string>
+    <string name="text_user_found">User Found!</string>
+    <string name="text_found_id">Found ID</string>
+    <string name="text_menu">Menu</string>
+    <string name="text_plants">Plants</string>
+    <string name="text_origin">Origin</string>
+    <string name="text_type">Type</string>
+    <string name="text_photos">Photos</string>
+    <string name="text_create_plant">Create Plant</string>
+    <string name="text_edit_plant">Edit Plant</string>
+    <string name="text_delete_plant">Delete Plant</string>
+    <string name="text_log_out">Log Out</string>
+
+    <string name="text_content">Cupcake ipsum dolor sit amet I love.
+        Pie sweet macaroon I love muffin. Powder cake chocolate frosting
+        I love pastry sugar plum. Candy canes cheesecake sweet rol
+        biscuit bonbon biscuit gummy bears.</string>
 </resources>
