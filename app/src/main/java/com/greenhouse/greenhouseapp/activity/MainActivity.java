@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.controller.SessionManagement;
@@ -47,15 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //remove session and open log in screen
         SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
         sessionManagement.removeSession();
+        Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
         sendTologIn();
     }
 
     public void sendTologIn() {
 
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        //Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(i, b);
         startActivity(i);
     }
 

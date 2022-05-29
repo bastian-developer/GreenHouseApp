@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.controller.SessionManagement;
@@ -55,8 +56,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             login();
 
         } else if (id == R.id.btnRegister) {
-            //Intent intent = new Intent(this, RegisterActivity.class);
-            //startActivity(intent);
+
+            sendToRegister();
+
         }
 
     }
@@ -91,16 +93,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
         sessionManagement.saveSession(user);
 
+        Toast.makeText(LoginActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
+
         sendToMenu();
 
     }
 
     public void sendToMenu() {
-
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
-        //Bundle b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        //startActivity(i, b);
+        startActivity(i);
+    }
+
+    public void sendToRegister() {
+        Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 
