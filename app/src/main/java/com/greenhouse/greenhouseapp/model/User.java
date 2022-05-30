@@ -56,6 +56,11 @@ public class User {
         this._address = _address;
     }
 
+    public User(String _email, String _password) {
+        this._email = _email;
+        this._password = _password;
+    }
+
     public User() {
 
     }

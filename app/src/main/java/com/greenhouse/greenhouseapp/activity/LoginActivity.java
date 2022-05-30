@@ -120,13 +120,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String email, password;
                         try{
 
-
-                            //----------------
-
                             email = response.getString("email");
                             password = response.getString("password");
 
-                            User user = new User(666, "Satan", email, password, "hell");
+                            User user = new User(email, password);
 
                             SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
                             sessionManagement.saveSession(user);
@@ -134,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             etEmail.setText(email);
                             etPassword.setText(password);
 
-                            Toast.makeText(LoginActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, email+ " " + password, Toast.LENGTH_SHORT).show();
 
                             sendToMenu();
 
@@ -147,6 +144,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(LoginActivity.this, "Authentication Error", Toast.LENGTH_SHORT).show();
+
 
                     }
                 }
