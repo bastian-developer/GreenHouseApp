@@ -17,7 +17,8 @@ public class UserControl{
 
     RequestQueue requestQueue;
 
-    private static final String URLSAVE = "http://192.168.0.3/greenhousedb/saveuser.php";
+    private static final String URLSAVE = "http://192.168.0.3/greenhousedb/saveUser.php";
+    private static final String URLBLOCK = "http://192.168.0.3/greenhousedb/blockUser.php";
 
     public void createUser(final String name, final String email, final String password, final String address,final String photo, final String isBlocked, Context context ) {
 
@@ -50,6 +51,42 @@ public class UserControl{
                 params.put("password", password);
                 params.put("address", address);
                 params.put("photo", photo);
+                params.put("isBlocked", isBlocked);
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+
+    }
+
+    public void blockUser(final String email, final String isBlocked, Context context ) {
+
+        requestQueue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                URLBLOCK,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        String e = error.toString();
+
+                    }
+                }
+        ){
+            //Hashmap URL ENCODE
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
                 params.put("isBlocked", isBlocked);
                 return params;
             }

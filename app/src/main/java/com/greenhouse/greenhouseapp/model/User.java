@@ -11,7 +11,7 @@ public class User {
     private String _password;
     private String _address;
     private String _photo;
-    private boolean _isBlocked;
+    private String _isBlocked;
 
     public int get_id() {
         return _id;
@@ -61,16 +61,16 @@ public class User {
         this._photo = _photo;
     }
 
-    public boolean is_isBlocked() {
+    public String is_isBlocked() {
         return _isBlocked;
     }
 
-    public void set_isBlocked(boolean _isBlocked) {
+    public void set_isBlocked(String _isBlocked) {
         this._isBlocked = _isBlocked;
     }
 
     //Complete Constructor
-    public User(int _id, String _name, String _email, String _password, String _address, String _photo, boolean _isBlocked) {
+    public User(int _id, String _name, String _email, String _password, String _address, String _photo, String _isBlocked) {
         this._id = _id;
         this._name = _name;
         this._email = _email;

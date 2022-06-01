@@ -9,7 +9,7 @@ public class Plant {
     private int _idUser;
     private String _name;
     private String _type;
-    private Country _origin;
+    private String _origin;
     private List<Photo> _photoList;
     private Status _currentStatus;
     private Status _idealStatus;
@@ -47,11 +47,11 @@ public class Plant {
         this._type = _type;
     }
 
-    public Country get_origin() {
+    public String get_origin() {
         return _origin;
     }
 
-    public void set_origin(Country _origin) {
+    public void set_origin(String _origin) {
         this._origin = _origin;
     }
 
@@ -84,7 +84,7 @@ public class Plant {
     }
 
     //Test Constructor
-    public Plant(int _id, int _idUser,String _name, String _type, Country _origin) {
+    public Plant(int _id, int _idUser,String _name, String _type, String _origin) {
         this._id = autoIncrement;
         this._idUser = _idUser;
         this._name = _name;
@@ -94,7 +94,7 @@ public class Plant {
     }
 
     //Complete Constructor
-    public Plant(int _id, int _idUser, String _name, String _type, Country _origin, List<Photo> _photoList, Status _currentStatus, Status _idealStatus) {
+    public Plant(int _id, int _idUser, String _name, String _type, String _origin, List<Photo> _photoList, Status _currentStatus, Status _idealStatus) {
         this._id = autoIncrement;
         this._idUser = _idUser;
         this._name = _name;

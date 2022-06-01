@@ -117,23 +117,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String email, password;
+                        String email, password, tries, name;
                         try{
 
                             email = response.getString("email");
                             password = response.getString("password");
+                            tries = response.getString("tries");
+                            name = response.getString("name");
+
 
                             User user = new User(email, password);
 
-                            SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
-                            sessionManagement.saveSession(user);
+                            if(Integer.parseInt(tries) > 0){
+                                SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
+                                sessionManagement.saveSession(user);
 
-                            etEmail.setText(email);
-                            etPassword.setText(password);
+                                Toast.makeText(LoginActivity.this, "Hello " + name + "!", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(LoginActivity.this, email+ " " + password, Toast.LENGTH_SHORT).show();
+                                sendToMenu();
+                            } else {
 
-                            sendToMenu();
+                                Toast.makeText(LoginActivity.this, "User Blocked", Toast.LENGTH_SHORT).show();
+
+
+                            }
+
 
 
                         } catch (JSONException e) {

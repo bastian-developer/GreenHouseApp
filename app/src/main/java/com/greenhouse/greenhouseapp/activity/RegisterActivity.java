@@ -156,6 +156,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 spinnerCity.getSelectedItem().toString() + ", " +
                 etStreet.getText().toString().trim();
 
+        User newUser = new User();
+
         userControl.createUser(name, email, password, address, photo, isBlocked, RegisterActivity.this);
 
 
