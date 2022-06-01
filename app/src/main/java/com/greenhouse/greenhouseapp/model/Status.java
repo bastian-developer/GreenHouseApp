@@ -3,9 +3,11 @@ package com.greenhouse.greenhouseapp.model;
 public class Status {
 
     private int _id;
+    private int _idPlant;
     private String _name;
     private float _airTemperature;
     private float _airHumidity;
+    private float _soilHumidity;
     private float _ambientLight;
     private float _waterQuantity;
     private float _airQuality;
@@ -17,6 +19,14 @@ public class Status {
 
     public void set_id(int _id) {
         this._id = _id;
+    }
+
+    public int get_idPlant() {
+        return _idPlant;
+    }
+
+    public void set_idPlant(int _idPlant) {
+        this._idPlant = _idPlant;
     }
 
     public String get_name() {
@@ -59,6 +69,14 @@ public class Status {
         this._waterQuantity = _waterQuantity;
     }
 
+    public float get_soilHumidity() {
+        return _soilHumidity;
+    }
+
+    public void set_soilHumidity(float _soilHumidity) {
+        this._soilHumidity = _soilHumidity;
+    }
+
     public float get_airQuality() {
         return _airQuality;
     }
@@ -71,8 +89,9 @@ public class Status {
     }
 
     //Current Sensors
-    public Status(int _id, String _name, float _airTemperature, float _airHumidity) {
+    public Status(int _id, int _idPlant, String _name, float _airTemperature, float _airHumidity) {
         this._id = autoIncrement;
+        this._id = _idPlant;
         this._name = _name;
         this._airTemperature = _airTemperature;
         this._airHumidity = _airHumidity;
@@ -80,11 +99,12 @@ public class Status {
     }
 
     //All Sensors
-    public Status(int _id, String _name, float _airTemperature, float _airHumidity, float _ambientLight, float _waterQuantity, float _airQuality) {
+    public Status(int _id, String _name, float _airTemperature, float _airHumidity, float _soilHumidity, float _ambientLight, float _waterQuantity, float _airQuality) {
         this._id = autoIncrement;
         this._name = _name;
         this._airTemperature = _airTemperature;
         this._airHumidity = _airHumidity;
+        this._soilHumidity = _soilHumidity;
         this._ambientLight = _ambientLight;
         this._waterQuantity = _waterQuantity;
         this._airQuality = _airQuality;
@@ -98,6 +118,7 @@ public class Status {
                 ", _name='" + _name + '\'' +
                 ", _airTemperature=" + _airTemperature +
                 ", _airHumidity=" + _airHumidity +
+                ", _soilHumidity=" + _soilHumidity +
                 ", _ambientLight=" + _ambientLight +
                 ", _waterQuantity=" + _waterQuantity +
                 ", _airQuality=" + _airQuality +

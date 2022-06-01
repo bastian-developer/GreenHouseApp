@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void login(String email, String password) {
-        String URLDB = "http://192.168.0.3/greenhousedb/login.php?email=" + email + "&password=" + password;
+        String URLDB = "http://192.168.0.3/greenhouseDB/login.php?email=" + email + "&password=" + password;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,

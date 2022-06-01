@@ -6,6 +6,7 @@ import java.util.List;
 public class Plant {
 
     private int _id;
+    private int _idUser;
     private String _name;
     private String _type;
     private Country _origin;
@@ -20,6 +21,14 @@ public class Plant {
 
     public void set_id(int _id) {
         this._id = _id;
+    }
+
+    public int get_idUser() {
+        return _idUser;
+    }
+
+    public void set_idUser(int _idUser) {
+        this._idUser = _idUser;
     }
 
     public String get_name() {
@@ -75,8 +84,9 @@ public class Plant {
     }
 
     //Test Constructor
-    public Plant(int _id, String _name, String _type, Country _origin) {
+    public Plant(int _id, int _idUser,String _name, String _type, Country _origin) {
         this._id = autoIncrement;
+        this._idUser = _idUser;
         this._name = _name;
         this._type = _type;
         this._origin = _origin;
@@ -84,8 +94,9 @@ public class Plant {
     }
 
     //Complete Constructor
-    public Plant(int _id, String _name, String _type, Country _origin, List<Photo> _photoList, Status _currentStatus, Status _idealStatus) {
+    public Plant(int _id, int _idUser, String _name, String _type, Country _origin, List<Photo> _photoList, Status _currentStatus, Status _idealStatus) {
         this._id = autoIncrement;
+        this._idUser = _idUser;
         this._name = _name;
         this._type = _type;
         this._origin = _origin;
@@ -100,6 +111,7 @@ public class Plant {
     public String toString() {
         return "Plant{" +
                 "_id=" + _id +
+                ", _idUser='" + _idUser + '\'' +
                 ", _name='" + _name + '\'' +
                 ", _type='" + _type + '\'' +
                 ", _origin=" + _origin +

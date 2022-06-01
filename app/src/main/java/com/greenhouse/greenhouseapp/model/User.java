@@ -9,13 +9,9 @@ public class User {
     private String _name;
     private String _email;
     private String _password;
-    private Address _address;
-    private Photo _photo;
+    private String _address;
+    private String _photo;
     private boolean _isBlocked;
-    private List<Plant> _plantList;
-
-    //CLASS attribute, NOT an OBJECT attribute
-    private static int autoIncrement = 1;
 
     public int get_id() {
         return _id;
@@ -49,19 +45,19 @@ public class User {
         this._password = _password;
     }
 
-    public Address get_address() {
+    public String get_address() {
         return _address;
     }
 
-    public void set_address(Address _address) {
+    public void set_address(String _address) {
         this._address = _address;
     }
 
-    public Photo get_photo() {
+    public String get_photo() {
         return _photo;
     }
 
-    public void set_photo(Photo _photo) {
+    public void set_photo(String _photo) {
         this._photo = _photo;
     }
 
@@ -73,48 +69,15 @@ public class User {
         this._isBlocked = _isBlocked;
     }
 
-    public List<Plant> get_plantList() {
-        return _plantList;
-    }
-
-    public void set_plantList(List<Plant> _plantList) {
-        this._plantList = _plantList;
-    }
-
-
     //Complete Constructor
-    public User(int _id, String _name, String _email, String _password, Address _address, Photo _photo, boolean _isBlocked, List<Plant> _plantList) {
-        this._id = autoIncrement;
+    public User(int _id, String _name, String _email, String _password, String _address, String _photo, boolean _isBlocked) {
+        this._id = _id;
         this._name = _name;
         this._email = _email;
         this._password = _password;
         this._address = _address;
         this._photo = _photo;
         this._isBlocked = _isBlocked;
-        //New Instance?
-        this._plantList = new ArrayList<>();
-        autoIncrement++;
-    }
-
-    //Register Constructor
-    public User(int _id, String _name, String _email, String _password, Address _address, Photo _photo) {
-        this._id = autoIncrement;
-        this._name = _name;
-        this._email = _email;
-        this._password = _password;
-        this._address = _address;
-        this._photo = _photo;
-        autoIncrement++;
-    }
-
-    //Test Constructor
-    public User(int _id, String _name, String _email, String _password, Address _address) {
-        this._id = autoIncrement;
-        this._name = _name;
-        this._email = _email;
-        this._password = _password;
-        this._address = _address;
-        autoIncrement++;
     }
 
     //Login Constructor
@@ -137,6 +100,8 @@ public class User {
                 ", _email='" + _email + '\'' +
                 ", _password='" + _password + '\'' +
                 ", _address='" + _address + '\'' +
+                ", _photo='" + _photo + '\'' +
+                ", _isBlocked='" + _isBlocked + '\'' +
                 '}';
     }
 }

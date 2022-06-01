@@ -7,6 +7,7 @@ public class State {
 
     private int _id;
     private String _name;
+    private String _country;
     private List<City> _cityList;
     private static int autoIncrement = 1;
 
@@ -24,6 +25,14 @@ public class State {
 
     public void set_name(String _name) {
         this._name = _name;
+    }
+
+    public String get_country() {
+        return _country;
+    }
+
+    public void set_country(String _country) {
+        this._country = _country;
     }
 
     public List<City> get_cityList() {

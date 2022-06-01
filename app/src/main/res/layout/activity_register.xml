@@ -15,11 +15,11 @@
         android:layout_height="wrap_content"
         android:text="@string/text_register"
         android:textColor="@color/lightGreen"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/darkGreen"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
@@ -43,7 +43,7 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/darkGreen"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
@@ -57,7 +57,7 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/darkGreen"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
@@ -66,34 +66,76 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etAddress"
-        android:hint="@string/text_address"
+        android:id="@+id/etPhoto"
+        android:hint="@string/text_photo"
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/darkGreen"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
         android:inputType="text" />
 
+    <Spinner
+        android:id="@+id/spinnerCountry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="2dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="2dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="2dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etStreet"
+        android:hint="@string/text_Street"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/darkGreen"
+        android:layout_marginBottom="15dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:inputType="text" />
+
+
     <Button
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:id="@+id/btnCreateUser"
         android:text="@string/text_register"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="30dp"
-        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="50dp"
         android:textColor="@color/black"/>
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:id="@+id/btnLogIn"
         android:text="@string/text_already"
         android:backgroundTint="@color/lightGreen"
         android:layout_marginBottom="30dp"
-        android:layout_marginHorizontal="25dp"
+        android:layout_marginHorizontal="40dp"
         android:textColor="@color/black"/>
 </LinearLayout>
