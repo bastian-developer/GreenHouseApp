@@ -14,7 +14,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    Button btnLogOut;
+    Button btnLogOut, btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +24,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initUI();
 
         btnLogOut.setOnClickListener(this);
+        btnProfile.setOnClickListener(this);
     }
 
     private void initUI(){
 
         btnLogOut = findViewById(R.id.btnLogout);
+        btnProfile = findViewById(R.id.btnProfile);
 
     }
 
@@ -41,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             logout();
 
+        }else if (id == R.id.btnProfile) {
+
+            sendToProfile();
+
         }
+
+
     }
 
     public void logout() {
@@ -53,9 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void sendTologIn() {
-
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+    }
+
+    public void sendToProfile() {
+        Intent i = new Intent(MainActivity.this, UserActivity.class);
+        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 
