@@ -30,6 +30,9 @@
     <string name="text_edit_plant">Edit Plant</string>
     <string name="text_delete_plant">Delete Plant</string>
     <string name="text_log_out">Log Out</string>
+    <string name="text_my_profile">My Profile</string>
+    <string name="text_my_plants">My Plants</string>
+    <string name="text_status">Status</string>
 
     <string name="text_content">Cupcake ipsum dolor sit amet I love.
         Pie sweet macaroon I love muffin. Powder cake chocolate frosting
