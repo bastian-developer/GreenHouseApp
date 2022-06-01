@@ -1,9 +1,11 @@
 package com.greenhouse.greenhouseapp.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +25,20 @@ import com.greenhouse.greenhouseapp.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etEmail, etPassword;
     Button btnRegister, btnLogIn;
     String email, password;
     RequestQueue requestQueue;
+    String AES = "AES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
 
@@ -74,8 +85,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
+            String encryptedPassword = null;
 
-            login(email, password);
+            try {
+                encryptedPassword = encrypt(password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            login(email, encryptedPassword);
+
 
         } else if (id == R.id.btnRegister) {
 
@@ -90,6 +110,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
 
         checkSession();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String encrypt(String password) throws Exception {
+        SecretKeySpec key = generateKey(password);
+        Cipher c = Cipher.getInstance(AES);
+        c.init(Cipher.ENCRYPT_MODE, key);
+        //StandardCharsets.UTF_8
+        byte[] encVal = c.doFinal(password.getBytes());
+
+        //!!!!!
+        String encryptedValue = Base64.getEncoder().encodeToString(encVal);
+
+        return encryptedValue;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String decrypt(String password) throws Exception {
+        SecretKeySpec key = generateKey(password);
+        Cipher c = Cipher.getInstance(AES);
+        c.init(Cipher.DECRYPT_MODE, key);
+        byte[] decodedValue = Base64.getDecoder().decode(password);
+        byte[] decValue = c.doFinal(decodedValue);
+        String decryptedValue = new String(decValue);
+        return decryptedValue;
+    }
+
+    private SecretKeySpec generateKey(String password) throws Exception {
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        //"UTF-8"
+        byte[] bytes = password.getBytes(StandardCharsets.UTF_8);
+        digest.update(bytes, 0, bytes.length);
+        byte[] key = digest.digest();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
     }
 
     private void checkSession() {

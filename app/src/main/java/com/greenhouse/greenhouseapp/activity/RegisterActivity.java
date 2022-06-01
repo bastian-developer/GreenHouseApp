@@ -1,5 +1,6 @@
 package com.greenhouse.greenhouseapp.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -15,6 +16,7 @@ import com.greenhouse.greenhouseapp.controller.UserControl;
 import com.greenhouse.greenhouseapp.model.User;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,16 +30,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.sql.Struct;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     EditText etName, etPassword, etEmail, etPhoto, etStreet;
     Spinner spinnerCountry, spinnerState,spinnerCity;
     Button btnCreate, btnLogin;
+    String AES = "AES";
 
     RequestQueue requestQueue, requestQueueSpin;
 
@@ -126,6 +135,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
 
@@ -144,25 +154,59 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createUser() {
 
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        String encryptedPassword = "";
+        try {
+            encryptedPassword = encrypt(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         String photo = etPhoto.getText().toString().trim();
+        //Hardcode
         String isBlocked = "false";
         String address = spinnerCountry.getSelectedItem().toString() + ", " +
                 spinnerState.getSelectedItem().toString() + ", " +
                 spinnerCity.getSelectedItem().toString() + ", " +
                 etStreet.getText().toString().trim();
 
+        //Integrate models someday?
         User newUser = new User();
 
-        userControl.createUser(name, email, password, address, photo, isBlocked, RegisterActivity.this);
+        userControl.createUser(name, email, encryptedPassword, address, photo, isBlocked, RegisterActivity.this);
 
 
     }
 
+    //!!!!!!!
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String encrypt(String password) throws Exception {
+        SecretKeySpec key = generateKey(password);
+        Cipher c = Cipher.getInstance(AES);
+        c.init(Cipher.ENCRYPT_MODE, key);
+        //StandardCharsets.UTF_8
+        byte[] encVal = c.doFinal(password.getBytes());
+
+        //!!!!!
+        String encryptedValue = Base64.getEncoder().encodeToString(encVal);
+
+        return encryptedValue;
+    }
+
+    private SecretKeySpec generateKey(String password) throws Exception {
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        //"UTF-8"
+        byte[] bytes = password.getBytes(StandardCharsets.UTF_8);
+        digest.update(bytes, 0, bytes.length);
+        byte[] key = digest.digest();
+        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+        return secretKeySpec;
+    }
 
 
     public void sendToLogIn() {
