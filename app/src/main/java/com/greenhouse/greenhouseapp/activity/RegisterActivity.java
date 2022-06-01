@@ -11,6 +11,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.UserControl;
 import com.greenhouse.greenhouseapp.model.User;
 
 import android.content.Intent;
@@ -43,17 +44,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     ArrayList<String> countryList = new ArrayList<>();
     ArrayList<String> stateList = new ArrayList<>();
     ArrayList<String> cityList = new ArrayList<>();
+
     ArrayAdapter<String> countryAdapter;
     ArrayAdapter<String> stateAdapter;
     ArrayAdapter<String> cityAdapter;
 
-    private static final String URLDB = "http://192.168.0.3/greenhousedb/saveuser.php";
+    UserControl userControl = new UserControl();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
 
 
         requestQueue = Volley.newRequestQueue(RegisterActivity.this);
@@ -131,66 +133,35 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (id == R.id.btnCreateUser) {
 
-            String name = etName.getText().toString().trim();
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            String photo = etPhoto.getText().toString().trim();
-            String isBlocked = "false";
-            String address = spinnerCountry.getSelectedItem().toString() + ", " +
-                                spinnerState.getSelectedItem().toString() + ", " +
-                                    spinnerCity.getSelectedItem().toString() + ", " +
-                                        etStreet.getText().toString().trim();
-
-            createUser(name, email, password, address, photo, isBlocked);
-
+            createUser();
             sendToLogIn();
 
         } else if (id == R.id.btnLogIn) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+
+            sendToLogIn();
+
         }
 
     }
 
+    public void createUser() {
 
-    private void createUser(final String name, final String email, final String password, final String address,final String photo, final String isBlocked) {
+        String name = etName.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        String photo = etPhoto.getText().toString().trim();
+        String isBlocked = "false";
+        String address = spinnerCountry.getSelectedItem().toString() + ", " +
+                spinnerState.getSelectedItem().toString() + ", " +
+                spinnerCity.getSelectedItem().toString() + ", " +
+                etStreet.getText().toString().trim();
 
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                URLDB,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(RegisterActivity.this, "BKN", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+        userControl.createUser(name, email, password, address, photo, isBlocked, RegisterActivity.this);
 
-                        String e = error.toString();
-
-                        Toast.makeText(RegisterActivity.this, e, Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ){
-            //Hashmap URL ENCODE
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("password", password);
-                params.put("address", address);
-                params.put("photo", photo);
-                params.put("isBlocked", isBlocked);
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
 
     }
+
+
 
     public void sendToLogIn() {
         Intent intent = new Intent(this, LoginActivity.class);

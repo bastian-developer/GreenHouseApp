@@ -3,11 +3,10 @@ package com.greenhouse.greenhouseapp.model;
 public class Address {
 
     private int _id;
-    private Country _country;
-    private State _state;
-    private City _city;
+    private String _country;
+    private String _state;
+    private String _city;
     private String _street;
-    private static int autoIncrement = 1;
 
     public int get_id() {
         return _id;
@@ -17,27 +16,27 @@ public class Address {
         this._id = _id;
     }
 
-    public Country get_country() {
+    public String get_country() {
         return _country;
     }
 
-    public void set_country(Country _country) {
+    public void set_country(String _country) {
         this._country = _country;
     }
 
-    public State get_state() {
+    public String get_state() {
         return _state;
     }
 
-    public void set_state(State _state) {
+    public void set_state(String _state) {
         this._state = _state;
     }
 
-    public City get_city() {
+    public String get_city() {
         return _city;
     }
 
-    public void set_city(City _city) {
+    public void set_city(String _city) {
         this._city = _city;
     }
 
@@ -52,13 +51,12 @@ public class Address {
     public Address() {
     }
 
-    public Address(int _id, Country _country, State _state, City _city, String _street) {
-        this._id = autoIncrement;
+    public Address(int _id, String _country, String _state, String _city, String _street) {
+        this._id = _id;
         this._country = _country;
         this._state = _state;
         this._city = _city;
         this._street = _street;
-        autoIncrement++;
     }
 
     @Override
