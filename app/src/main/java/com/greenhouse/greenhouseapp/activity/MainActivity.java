@@ -21,6 +21,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle extras = getIntent().getExtras();
+
+
+        String id = extras.getString("id");
+
+
+        Toast.makeText(MainActivity.this, id, Toast.LENGTH_SHORT).show();
+
+
         initUI();
 
         btnLogOut.setOnClickListener(this);
@@ -49,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+
+    }
+
+    public void menuHelper(){
 
     }
 

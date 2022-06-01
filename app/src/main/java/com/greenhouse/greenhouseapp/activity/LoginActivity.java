@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(userID != -1) {
             //user is logged in, move to mainActivity
-            sendToMenu();
+            sendToMenu(userID);
         } else {
             //do nothing
         }
@@ -174,15 +174,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onResponse(JSONObject response) {
                         String email, password, tries, name;
+                        int id;
                         try{
 
+                            id = response.getInt("id");
                             email = response.getString("email");
                             password = response.getString("password");
                             tries = response.getString("tries");
                             name = response.getString("name");
 
 
-                            User user = new User(email, password);
+                            User user = new User(id, email, password);
 
                             if(Integer.parseInt(tries) > 0){
                                 SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
@@ -190,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 Toast.makeText(LoginActivity.this, "Hello " + name + "!", Toast.LENGTH_SHORT).show();
 
-                                sendToMenu();
+                                sendToMenu(id);
                             } else {
 
                                 Toast.makeText(LoginActivity.this, "User Blocked", Toast.LENGTH_SHORT).show();
@@ -220,9 +222,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void sendToMenu() {
+    public void sendToMenu(int id) {
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(id));
+        i.putExtras(sendData);
         startActivity(i);
     }
 

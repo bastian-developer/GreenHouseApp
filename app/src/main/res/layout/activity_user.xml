@@ -79,7 +79,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/btnEditUser"
+        android:id="@+id/btnEditProfile"
         android:text="@string/text_edit_profile"
         android:backgroundTint="@color/lightGreen"
         android:layout_marginBottom="30dp"

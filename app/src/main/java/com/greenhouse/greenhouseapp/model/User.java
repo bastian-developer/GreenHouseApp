@@ -86,6 +86,18 @@ public class User {
         this._password = _password;
     }
 
+
+    public User(int _id,  String _email, String _password) {
+        this._id = _id;
+        this._email = _email;
+        this._password = _password;
+    }
+
+    public User(int _id) {
+        this._id = _id;
+
+    }
+
     //Empty Constructor
     public User() {
 
