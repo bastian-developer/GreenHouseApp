@@ -40,8 +40,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         initUI();
 
-        //ID
-        //searchUser();
+        searchUser();
 
         btnEditProfile.setOnClickListener(this);
 
@@ -80,7 +79,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void searchUser() {
-        String URLDB = "http://192.168.0.3/greenhousedb/searchUser.php?id=" + "id";
+        String URLDB = "http://192.168.0.3/greenhousedb/searchUser.php?id=" + userID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,
