@@ -14,7 +14,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    Button btnLogOut, btnProfile, btnPlant;
+    Button btnLogOut, btnProfile, btnPlant, btnStatus, btnPlants;
     String userId;
 
     @Override
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogOut.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
         btnPlant.setOnClickListener(this);
+        btnStatus.setOnClickListener(this);
+        btnPlants.setOnClickListener(this);
     }
 
     private void initUI(){
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogOut = findViewById(R.id.btnLogout);
         btnProfile = findViewById(R.id.btnProfile);
         btnPlant = findViewById(R.id.btnCreatePlant);
+        btnStatus = findViewById(R.id.btnStatus);
+        btnPlants = findViewById(R.id.btnPlants);
 
     }
 
@@ -62,6 +66,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (id == R.id.btnCreatePlant) {
 
             sendToCreatePlant(userId);
+
+        }else if (id == R.id.btnStatus) {
+
+            sendToStatus(userId);
+
+        }else if (id == R.id.btnPlants) {
+
+            sendToPlants(userId);
 
         }
 
@@ -103,6 +115,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sendData.putString("id", String.valueOf(userId));
         i.putExtras(sendData);
         startActivity(i);
+    }
+
+    public void sendToStatus(String userId) {
+
+        Intent i = new Intent(MainActivity.this, statusActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userId));
+        i.putExtras(sendData);
+        startActivity(i);
+    }
+
+    public void sendToPlants(String userId) {
+
+        Toast.makeText(MainActivity.this, "XD", Toast.LENGTH_SHORT).show();
+
+        //Intent i = new Intent(MainActivity.this, PlantsActivity.class);
+        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        //Bundle sendData = new Bundle();
+        //sendData.putString("id", String.valueOf(userId));
+        //i.putExtras(sendData);
+        //startActivity(i);
     }
 
 }
