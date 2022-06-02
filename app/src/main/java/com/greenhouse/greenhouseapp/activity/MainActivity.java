@@ -14,7 +14,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    Button btnLogOut, btnProfile;
+    Button btnLogOut, btnProfile, btnPlant;
     String userId;
 
     @Override
@@ -35,12 +35,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnLogOut.setOnClickListener(this);
         btnProfile.setOnClickListener(this);
+        btnPlant.setOnClickListener(this);
     }
 
     private void initUI(){
 
         btnLogOut = findViewById(R.id.btnLogout);
         btnProfile = findViewById(R.id.btnProfile);
+        btnPlant = findViewById(R.id.btnCreatePlant);
 
     }
 
@@ -57,14 +59,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             sendToProfile(userId);
 
+        }else if (id == R.id.btnCreatePlant) {
+
+            sendToCreatePlant(userId);
+
         }
 
 
-    }
-
-    public void menuHelper(){
 
     }
+
 
     public void logout() {
         //remove session and open log in screen
@@ -85,6 +89,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i = new Intent(MainActivity.this, UserActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userId));
+        i.putExtras(sendData);
+        startActivity(i);
+    }
+
+    public void sendToCreatePlant(String userId) {
+
+        Intent i = new Intent(MainActivity.this, PlantActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle sendData = new Bundle();
         sendData.putString("id", String.valueOf(userId));
         i.putExtras(sendData);
