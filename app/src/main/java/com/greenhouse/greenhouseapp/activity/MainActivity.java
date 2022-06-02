@@ -15,6 +15,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
     Button btnLogOut, btnProfile;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +25,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Bundle extras = getIntent().getExtras();
 
 
-        String id = extras.getString("id");
+        userId = extras.getString("id");
 
 
-        Toast.makeText(MainActivity.this, id, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, userId, Toast.LENGTH_SHORT).show();
 
 
         initUI();
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }else if (id == R.id.btnProfile) {
 
-            sendToProfile();
+            sendToProfile(userId);
 
         }
 
@@ -79,9 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(i);
     }
 
-    public void sendToProfile() {
+    public void sendToProfile(String userId) {
+
         Intent i = new Intent(MainActivity.this, UserActivity.class);
-        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userId));
+        i.putExtras(sendData);
         startActivity(i);
     }
 
