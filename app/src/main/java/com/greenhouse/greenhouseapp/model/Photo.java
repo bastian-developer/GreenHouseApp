@@ -35,7 +35,7 @@ public class Photo {
     }
 
     public Photo(int _id, String _name, String _url) {
-        this._id = _id;
+        this._id = autoIncrement;
         this._name = _name;
         this._url = _url;
     }
