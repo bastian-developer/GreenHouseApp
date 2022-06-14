@@ -43,7 +43,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText etName, etPassword, etEmail, etPhoto, etStreet;
+    EditText etName, etPassword, etPassword2, etEmail, etPhoto, etStreet;
     Spinner spinnerCountry, spinnerState,spinnerCity;
     Button btnCreate, btnLogin;
     String AES = "AES";
@@ -81,8 +81,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         etName = findViewById(R.id.etName);
         etPassword = findViewById(R.id.etPassword);
+        etPassword2 = findViewById(R.id.etPassword2);
         etEmail = findViewById(R.id.etEmail);
-        etPhoto = findViewById(R.id.etPhoto);
+        //etPhoto = findViewById(R.id.etPhoto);
         btnCreate = findViewById(R.id.btnCreateUser);
         btnLogin = findViewById(R.id.btnLogIn);
         spinnerCountry = findViewById(R.id.spinnerCountry);
@@ -167,9 +168,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             e.printStackTrace();
         }
 
-        String photo = etPhoto.getText().toString().trim();
         //Hardcode
+        String photo = "http://192.168.0.3/greenhousedb/user_uploads/image.jpg";
         String isBlocked = "false";
+
         String address = spinnerCountry.getSelectedItem().toString() + ", " +
                 spinnerState.getSelectedItem().toString() + ", " +
                 spinnerCity.getSelectedItem().toString() + ", " +

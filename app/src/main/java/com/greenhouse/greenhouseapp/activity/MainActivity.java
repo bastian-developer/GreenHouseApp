@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userId = extras.getString("id");
 
 
-        Toast.makeText(MainActivity.this, userId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, userId, Toast.LENGTH_SHORT).show();
 
 
         initUI();
