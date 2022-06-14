@@ -129,24 +129,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void sendToPlants(String userId) {
 
-        Toast.makeText(MainActivity.this, "xD", Toast.LENGTH_SHORT).show();
 
         /*
+        Toast.makeText(MainActivity.this, "xD", Toast.LENGTH_SHORT).show();
         SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
         int userID2 = sessionManagement.getSession();
         if(userID2 != -1) {
             Toast.makeText(MainActivity.this, userID2, Toast.LENGTH_SHORT).show();
         } else {}
 
+        */
 
-
-        Intent i = new Intent(MainActivity.this, PlantsActivity.class);
+        Intent i = new Intent(MainActivity.this, PlantListActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle sendData = new Bundle();
         sendData.putString("id", String.valueOf(userId));
         i.putExtras(sendData);
         startActivity(i);
-        */
+
 
     }
 
