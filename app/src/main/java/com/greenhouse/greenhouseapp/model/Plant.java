@@ -10,7 +10,7 @@ public class Plant {
     private String _name;
     private String _type;
     private String _origin;
-    private int _image;
+    private String _image;
     private List<Photo> _photoList;
     private Status _currentStatus;
     private Status _idealStatus;
@@ -56,11 +56,11 @@ public class Plant {
         this._origin = _origin;
     }
 
-    public int get_image() {
+    public String get_image() {
         return _image;
     }
 
-    public void set_image(int _image) {
+    public void set_image(String _image) {
         this._image = _image;
     }
 
@@ -93,7 +93,8 @@ public class Plant {
     }
 
     //Test Constructor
-    public Plant(int _idUser,String _name, String _type, String _origin, int _image) {
+    public Plant(int _id, int _idUser,String _name, String _type, String _origin, String _image) {
+        this._id = _id;
         this._idUser = _idUser;
         this._name = _name;
         this._type = _type;

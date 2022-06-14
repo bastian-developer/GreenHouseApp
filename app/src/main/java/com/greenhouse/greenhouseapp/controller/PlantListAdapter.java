@@ -2,6 +2,9 @@ package com.greenhouse.greenhouseapp.controller;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.activity.UserActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
+import java.io.InputStream;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 //we need to extend the ArrayAdapter class as we are building an adapter
@@ -60,9 +67,10 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
         //getting the hero of the specified position
         Plant plant = plantList.get(position);
-
         //adding values to the list item
-        imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.image));
+        new GetImageFromUrl(imageView).execute(plant.get_image());
+
+        //imageView.setImageDrawable(context.getResources().getDrawable(plant.get_image()));
         textViewName.setText(plant.get_name());
 
         //adding a click listener to the button to remove item from the list
@@ -86,6 +94,38 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
         //finally returning the view
         return view;
+    }
+
+    public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {
+
+        ImageView imgV;
+
+        public GetImageFromUrl(ImageView imgV) {
+            this.imgV = imgV;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+
+            String urldisplay = url[0];
+
+            Bitmap bitmapIcon = null;
+
+            try {
+                InputStream srt = new java.net.URL(urldisplay).openStream();
+                bitmapIcon = BitmapFactory.decodeStream(srt);
+            } catch (Exception e) {
+
+            }
+
+            return bitmapIcon;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            imgV.setImageBitmap(bitmap);
+        }
     }
 
     //this method will remove the item from the list
