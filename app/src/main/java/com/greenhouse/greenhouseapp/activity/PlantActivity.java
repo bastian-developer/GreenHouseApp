@@ -52,7 +52,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
         etName = findViewById(R.id.etName);
         etType = findViewById(R.id.etType);
         etOrigin = findViewById(R.id.etOrigin);
-        etPhotos = findViewById(R.id.etPhotos);
+        //etPhotos = findViewById(R.id.etPhotos);
 
         btnCreatePlant = findViewById(R.id.btnCreatePlant);
 
@@ -69,7 +69,11 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
             String name = etName.getText().toString().trim();
             String type = etType.getText().toString().trim();
             String origin = etOrigin.getText().toString().trim();
-            String photos = etPhotos.getText().toString().trim();
+
+            //String photos = etPhotos.getText().toString().trim();
+
+            //HARDCODE
+            String photos = "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png";
 
             createPlant(name, type, origin, photos);
             sendToMenu();
