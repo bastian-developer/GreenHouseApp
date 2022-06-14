@@ -3,6 +3,7 @@ package com.greenhouse.greenhouseapp.activity;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.AsyncTaskLoader;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -53,7 +55,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     RequestQueue requestQueue;
     String AES = "AES";
     String userID;
-    Bitmap bitmap;
+    Bitmap bitmap, bitmapIcon;
     CircleImageView profileImage;
 
     //IMAGE
@@ -85,7 +87,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         etName = findViewById(R.id.etName);
         etPassword = findViewById(R.id.etPassword);
         etEmail = findViewById(R.id.etEmail);
-        etPhoto = findViewById(R.id.etPhoto);
+        //etPhoto = findViewById(R.id.etPhoto);
         btnEditProfile = findViewById(R.id.btnEditProfile);
         bntUploadImage = findViewById(R.id.btnUploadImage);
         profileImage = findViewById(R.id.profileImage);
@@ -101,9 +103,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             String name = etName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
-            String photo = etPhoto.getText().toString().trim();
+            //String photo = etPhoto.getText().toString().trim();
 
-            editProfile(name, email, password, photo);
+            editProfile(name, email, password);
             sendToMenu();
 
         } else if (id == R.id.btnUploadImage) {
@@ -188,7 +190,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         return encodedImage;
     }
 
-    private void editProfile(final String name, final String email, final String password, final String photo) {
+    private void editProfile(final String name, final String email, final String password) {
         String URLDB = "http://192.168.0.3/greenhousedb/editUser.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -215,7 +217,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 params.put("name", name);
                 params.put("email", email);
                 params.put("password", password);
-                params.put("photo", photo);
+                //params.put("photo", photo);
                 return params;
             }
         };
@@ -245,14 +247,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                             etName.setText(name);
                             etEmail.setText(email);
                             etPassword.setText(password);
-                            etPhoto.setText(photo);
+                            //etPhoto.setText(photo);
 
                             //Hardcode
-                            Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                                    R.drawable.image);
+                            //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.image);
+                            //profileImage.setImageBitmap(icon);
 
-
-                            profileImage.setImageBitmap(icon);
+                            new GetImageFromUrl(profileImage).execute(photo);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -270,6 +271,37 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         requestQueue.add(jsonObjectRequest);
     }
 
+    public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {
+
+        CircleImageView imgV;
+
+        public GetImageFromUrl(CircleImageView imgV) {
+            this.imgV = imgV;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... url) {
+
+            String urldisplay = url[0];
+
+            bitmapIcon = null;
+
+            try {
+                InputStream srt = new java.net.URL(urldisplay).openStream();
+                bitmapIcon = BitmapFactory.decodeStream(srt);
+            } catch (Exception e) {
+
+            }
+
+            return bitmapIcon;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            imgV.setImageBitmap(bitmap);
+        }
+    }
 
     public void sendToMenu() {
         Intent i = new Intent(UserActivity.this, MainActivity.class);

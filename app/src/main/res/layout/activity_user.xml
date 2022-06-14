@@ -71,6 +71,7 @@
         android:paddingVertical="5dp"
         android:inputType="textPassword"/>
 
+    <!--
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +85,7 @@
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
         android:inputType="text" />
-
+    -->
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
