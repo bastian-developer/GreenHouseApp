@@ -2,6 +2,7 @@ package com.greenhouse.greenhouseapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -123,5 +124,19 @@ public class PlantListActivity extends AppCompatActivity {
         );
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        sendToMenu();
+    }
+
+    public void sendToMenu() {
+        Intent i = new Intent(PlantListActivity.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle sendData = new Bundle();
+        sendData.putString("id", userID);
+        i.putExtras(sendData);
+        startActivity(i);
     }
 }

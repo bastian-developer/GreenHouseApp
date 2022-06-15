@@ -127,4 +127,9 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
 
         requestQueue.add(stringRequest);
     }
+
+    @Override
+    public void onBackPressed() {
+        sendToMenu();
+    }
 }
