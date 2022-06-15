@@ -2,9 +2,11 @@ package com.greenhouse.greenhouseapp.controller;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.activity.EditPlantActivity;
+import com.greenhouse.greenhouseapp.activity.MainActivity;
 import com.greenhouse.greenhouseapp.activity.PlantActivity;
+import com.greenhouse.greenhouseapp.activity.UserActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
 import java.io.InputStream;
@@ -48,12 +53,15 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
     RequestQueue requestQueue;
 
+    String userID;
+
     //constructor initializing the values
-    public PlantListAdapter(Context context, int resource, List<Plant> plantList) {
+    public PlantListAdapter(Context context, int resource, List<Plant> plantList, String userID) {
         super(context, resource, plantList);
         this.context = context;
         this.resource = resource;
         this.plantList = plantList;
+        this.userID = userID;
     }
 
     //this will return the ListView Item as a View
@@ -95,14 +103,26 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //we will call this method to remove the selected value from the list
-                //we are passing the position which is to be removed in the method
-                //editPlant(position);
+
+                sendToEditPlant(String.valueOf(plant.get_id()), userID);
+
             }
         });
 
         //finally returning the view
         return view;
+    }
+
+    public void sendToEditPlant(String id, String userID) {
+
+        Intent i = new Intent(context, EditPlantActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Bundle sendData = new Bundle();
+        sendData.putString("plantId", String.valueOf(id));
+        sendData.putString("id", userID);
+        i.putExtras(sendData);
+        context.startActivity(i);
     }
 
     public class GetImageFromUrl extends AsyncTask<String, Void, Bitmap> {

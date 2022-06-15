@@ -12,13 +12,24 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_plants"
+        android:text="@string/text_edit_plant"
         android:textColor="@color/lightGreen"
         android:textSize="50sp"
         android:textStyle="bold"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="20dp" />
+
+    <ImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profileImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
+        app:civ_border_width="3dp"
+        app:civ_border_color="@color/lightGreen"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -28,7 +39,7 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
@@ -42,7 +53,7 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
@@ -56,28 +67,27 @@
         android:textSize="25sp"
         android:textColor="@color/white"
         android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="5dp"
         android:inputType="text"/>
 
-    <ImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profileImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
-        app:civ_border_width="3dp"
-        app:civ_border_color="@color/lightGreen"/>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/btnCreatePlant"
-        android:text="@string/text_create_plant"
+        android:text="@string/text_edit_plant"
+        android:backgroundTint="@color/lightGreen"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="25dp"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/btnUploadImage"
+        android:text="@string/text_upload_image"
         android:backgroundTint="@color/lightGreen"
         android:layout_marginBottom="30dp"
         android:layout_marginHorizontal="25dp"

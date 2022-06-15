@@ -62,7 +62,7 @@ public class PlantListActivity extends AppCompatActivity {
         searchPlants();
 
         //creating the adapter
-        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList);
+        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
         //attaching adapter to the listview
         listView.setAdapter(adapter);
     }
