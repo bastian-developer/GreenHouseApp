@@ -18,13 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.greenhouse.greenhouseapp.R;
-import com.greenhouse.greenhouseapp.activity.UserActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
 import java.io.InputStream;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 //we need to extend the ArrayAdapter class as we are building an adapter
@@ -67,10 +64,9 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
         //getting the hero of the specified position
         Plant plant = plantList.get(position);
+
         //adding values to the list item
         new GetImageFromUrl(imageView).execute(plant.get_image());
-
-        //imageView.setImageDrawable(context.getResources().getDrawable(plant.get_image()));
         textViewName.setText(plant.get_name());
 
         //adding a click listener to the button to remove item from the list

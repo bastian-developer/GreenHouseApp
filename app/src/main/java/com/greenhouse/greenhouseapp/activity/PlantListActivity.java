@@ -1,11 +1,12 @@
 package com.greenhouse.greenhouseapp.activity;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,30 +45,29 @@ public class PlantListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_list);
 
-
-
         Bundle extras = getIntent().getExtras();
+
+
         userID = extras.getString("id");
-        //Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
 
         //initializing objects
         plantList = new ArrayList<>();
         listView = (ListView) findViewById(R.id.listView);
 
+        //Hardcoding this tomato to fix bug
+        plantList.add(new Plant(1,1, "Tomate", "Fruit", "Asia", "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png"));
 
-        //add plants to list
+        //Fill list with user plants
         searchPlants();
 
-
-
         //creating the adapter
-        PlantListAdapter adapter = new PlantListAdapter(this, R.layout.custom_list, plantList);
-
+        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList);
         //attaching adapter to the listview
         listView.setAdapter(adapter);
     }
 
-    private void searchPlants() {
+
+    public void searchPlants() {
         requestQueue = Volley.newRequestQueue(PlantListActivity.this);
         String URL = "http://192.168.0.3/greenhousedb/populateUserPlants.php?userId=" + userID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -80,6 +81,9 @@ public class PlantListActivity extends AppCompatActivity {
                         try {
 
                             JSONArray jsonArray = response.getJSONArray("plants");
+
+                            //Remove hardcoded tomato
+                            //plantList.remove(0);
 
                             for (int i = 0; i<jsonArray.length(); i++) {
 
@@ -95,9 +99,11 @@ public class PlantListActivity extends AppCompatActivity {
                                 origin = jsonObject.optString("origin");
                                 photos = jsonObject.optString("photos");
 
-                                Toast.makeText(PlantListActivity.this, photos, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
+
 
                                 plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));
+
 
 
                             }
