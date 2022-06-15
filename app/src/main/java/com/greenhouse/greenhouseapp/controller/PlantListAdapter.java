@@ -17,11 +17,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.activity.PlantActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 //we need to extend the ArrayAdapter class as we are building an adapter
@@ -35,6 +45,8 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
     //the layout resource file for the list items
     int resource;
+
+    RequestQueue requestQueue;
 
     //constructor initializing the values
     public PlantListAdapter(Context context, int resource, List<Plant> plantList) {
@@ -76,6 +88,7 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
                 //we will call this method to remove the selected value from the list
                 //we are passing the position which is to be removed in the method
                 removePlant(position);
+                deletePlant(String.valueOf(plant.get_id()));
             }
         });
 
@@ -154,5 +167,37 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
         //creating and displaying the alert dialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    private void deletePlant(final String idPlant) {
+
+        requestQueue = Volley.newRequestQueue(context);
+
+        String URLDB = "http://192.168.0.3/greenhousedb/deletePlant.php";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                URLDB,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", idPlant);
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 }
