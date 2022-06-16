@@ -96,6 +96,9 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
 
             editPlant(name, type, origin);
             sendToPlantList();
+            Toast.makeText(this, "Plant Updated", Toast.LENGTH_SHORT).show();
+
+
 
         } else if (id == R.id.btnUploadImage) {
 
@@ -188,6 +191,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         finish();
                     }
                 },
@@ -232,7 +236,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                             origin = response.getString("origin");
                             photo = response.getString("photos");
 
-                            Toast.makeText(EditPlantActivity.this, name, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(EditPlantActivity.this, name, Toast.LENGTH_SHORT).show();
 
 
                             etName.setText(name);

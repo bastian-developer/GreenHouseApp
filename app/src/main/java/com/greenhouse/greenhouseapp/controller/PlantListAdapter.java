@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,6 +98,7 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
                 //we are passing the position which is to be removed in the method
                 removePlant(position);
                 deletePlant(String.valueOf(plant.get_id()));
+
             }
         });
 

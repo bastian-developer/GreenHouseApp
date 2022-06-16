@@ -101,7 +101,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(PlantActivity.this, "BKN", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlantActivity.this, "Plant Created", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {

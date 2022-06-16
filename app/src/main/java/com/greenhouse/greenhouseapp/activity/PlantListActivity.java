@@ -100,7 +100,7 @@ public class PlantListActivity extends AppCompatActivity {
                                 origin = jsonObject.optString("origin");
                                 photos = jsonObject.optString("photos");
 
-                                Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
 
 
                                 plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));

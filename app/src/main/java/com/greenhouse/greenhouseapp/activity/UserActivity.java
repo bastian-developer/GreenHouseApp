@@ -72,7 +72,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle extras = getIntent().getExtras();
         userID = extras.getString("id");
-        Toast.makeText(UserActivity.this, userID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(UserActivity.this, userID, Toast.LENGTH_SHORT).show();
 
         initUI();
 
@@ -106,6 +106,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             //String photo = etPhoto.getText().toString().trim();
 
             editProfile(name, email, password);
+            Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+
             sendToMenu();
 
         } else if (id == R.id.btnUploadImage) {

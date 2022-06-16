@@ -146,6 +146,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             createUser();
             sendToLogIn();
+            Toast.makeText(this, "User Created", Toast.LENGTH_SHORT).show();
+
 
         } else if (id == R.id.btnLogIn) {
 
