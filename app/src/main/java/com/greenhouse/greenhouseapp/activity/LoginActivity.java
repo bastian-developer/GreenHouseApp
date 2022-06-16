@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null){
+        if (extras != null) {
             email = extras.getString("email");
             password = extras.getString("password");
         }
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLogIn.setOnClickListener(this);
     }
 
-    private void initUI(){
+    private void initUI() {
 
 
         etPassword = findViewById(R.id.etPassword);
@@ -117,15 +117,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SecretKeySpec key = generateKey(password);
         Cipher c = Cipher.getInstance(AES);
         c.init(Cipher.ENCRYPT_MODE, key);
-        //StandardCharsets.UTF_8
         byte[] encVal = c.doFinal(password.getBytes());
-
-        //!!!!!
         String encryptedValue = Base64.getEncoder().encodeToString(encVal);
-
         return encryptedValue;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String decrypt(String password) throws Exception {
@@ -150,22 +145,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void checkSession() {
 
-        //check if user is logged in
-        //if user is logged in, move to mainActivity
-
         SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
         int userID = sessionManagement.getSession();
 
-        if(userID != -1) {
-            //user is logged in, move to mainActivity
+        if (userID != -1) {
             sendToMenu(userID);
         } else {
             //do nothing
         }
     }
 
-    public void login(String email, String password) {
-        String URLDB = "http://192.168.0.3/greenhouseDB/login.php?email=" + email + "&password=" + password;
+    public void login(String email, String encryptedPassword) {
+        String URLDB = "http://192.168.0.3/greenhouseDB/login.php?email=" + email + "&password=" + encryptedPassword;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,
@@ -175,33 +166,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onResponse(JSONObject response) {
                         String email, password, tries, name;
                         int id;
-                        try{
-
+                        try {
                             id = response.getInt("id");
                             email = response.getString("email");
                             password = response.getString("password");
                             tries = response.getString("tries");
                             name = response.getString("name");
 
-
                             User user = new User(id, email, password);
 
-                            if(Integer.parseInt(tries) > 0){
-                                SessionManagement sessionManagement =  new SessionManagement(LoginActivity.this);
+                            if (Integer.parseInt(tries) > 0) {
+                                SessionManagement sessionManagement = new SessionManagement(LoginActivity.this);
                                 sessionManagement.saveSession(user);
-
                                 Toast.makeText(LoginActivity.this, "Hello " + name + "!", Toast.LENGTH_SHORT).show();
-
                                 sendToMenu(id);
                             } else {
-
                                 Toast.makeText(LoginActivity.this, "User Blocked", Toast.LENGTH_SHORT).show();
-
-
                             }
-
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -210,21 +191,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         Toast.makeText(LoginActivity.this, "Authentication Error", Toast.LENGTH_SHORT).show();
-
-
                     }
                 }
         );
-
         requestQueue.add(jsonObjectRequest);
-
     }
 
     public void sendToMenu(int id) {
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         Bundle sendData = new Bundle();
         sendData.putString("id", String.valueOf(id));
@@ -234,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void sendToRegister() {
         Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 

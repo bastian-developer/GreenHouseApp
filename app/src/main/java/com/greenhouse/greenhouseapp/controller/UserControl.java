@@ -36,9 +36,7 @@ public class UserControl{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                         String e = error.toString();
-
                     }
                 }
         ){

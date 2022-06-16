@@ -242,16 +242,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                             password = response.getString("password");
                             photo = response.getString("photo");
 
-
-
                             etName.setText(name);
                             etEmail.setText(email);
                             etPassword.setText(password);
-                            //etPhoto.setText(photo);
-
-                            //Hardcode
-                            //Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.image);
-                            //profileImage.setImageBitmap(icon);
 
                             new GetImageFromUrl(profileImage).execute(photo);
 

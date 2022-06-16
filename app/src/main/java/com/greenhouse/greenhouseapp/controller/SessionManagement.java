@@ -20,23 +20,15 @@ public class SessionManagement {
     }
 
     public void saveSession(User user) {
-
-        //save session of user whenever user is logged in
         int id = user.get_id();
-
         editor.putInt(SESSION_KEY, id).commit();
     }
 
-    //maybe return User?
     public int getSession() {
-
-        //return user whose session is saved
         return sharedPreferences.getInt(SESSION_KEY, -1);
     }
 
     public void removeSession() {
-
         editor.putInt(SESSION_KEY, -1).commit();
-
     }
 }
