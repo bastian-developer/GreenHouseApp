@@ -107,13 +107,15 @@ public class PlantInfoActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(String response) {
 
-
+                        Toast.makeText(PlantInfoActivity.this, "Added to My Plants", Toast.LENGTH_SHORT).show();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(PlantInfoActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }

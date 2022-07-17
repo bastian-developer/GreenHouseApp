@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.activity.EditPlantActivity;
+import com.greenhouse.greenhouseapp.activity.MainActivity;
 import com.greenhouse.greenhouseapp.activity.PlantInfoActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
@@ -166,13 +167,15 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
                     @Override
                     public void onResponse(String response) {
 
-
+                        Toast.makeText(context, "Added to My Plants", Toast.LENGTH_SHORT).show();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
 
                     }
                 }
