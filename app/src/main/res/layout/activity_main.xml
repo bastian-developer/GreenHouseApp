@@ -19,7 +19,7 @@
         android:textStyle="bold"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="30dp" />
 
     <Button
         android:id="@+id/btnProfile"
@@ -27,7 +27,7 @@
         android:layout_height="60dp"
         android:text="@string/text_my_profile"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black" />
 
@@ -37,7 +37,7 @@
         android:layout_height="60dp"
         android:text="@string/text_create_plant"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black" />
 
@@ -47,7 +47,17 @@
         android:layout_height="60dp"
         android:text="@string/text_my_plants"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="25dp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/btnGlobalPlants"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/text_global_plants"
+        android:backgroundTint="@color/lightGreen"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black" />
 
@@ -57,7 +67,7 @@
         android:layout_height="60dp"
         android:text="@string/text_status"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black" />
 
@@ -67,7 +77,6 @@
         android:layout_height="60dp"
         android:text="@string/text_log_out"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="50dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black" />
 

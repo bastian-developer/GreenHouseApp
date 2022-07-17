@@ -1,15 +1,10 @@
 package com.greenhouse.greenhouseapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,13 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlantListActivity extends AppCompatActivity {
+public class GlobalPlantsActivity extends AppCompatActivity {
 
-    //a List of type plant for holding list items
     List<Plant> plantList;
 
     //the listview
@@ -62,15 +55,14 @@ public class PlantListActivity extends AppCompatActivity {
         searchPlants();
 
         //creating the adapter
-        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
+        PlantListAdapter adapter = new PlantListAdapter(GlobalPlantsActivity.this, R.layout.custom_list, plantList, userID);
         //attaching adapter to the listview
         listView.setAdapter(adapter);
     }
 
-
     public void searchPlants() {
-        requestQueue = Volley.newRequestQueue(PlantListActivity.this);
-        String URL = "http://192.168.0.3/greenhousedb/populateUserPlants.php?userId=" + userID;
+        requestQueue = Volley.newRequestQueue(GlobalPlantsActivity.this);
+        String URL = "http://192.168.0.3/greenhousedb/populateAllPlants.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URL,
@@ -132,7 +124,7 @@ public class PlantListActivity extends AppCompatActivity {
     }
 
     public void sendToMenu() {
-        Intent i = new Intent(PlantListActivity.this, MainActivity.class);
+        Intent i = new Intent(GlobalPlantsActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle sendData = new Bundle();
         sendData.putString("id", userID);

@@ -14,7 +14,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    Button btnLogOut, btnProfile, btnPlant, btnStatus, btnPlants;
+    Button btnLogOut, btnProfile, btnPlant, btnStatus, btnPlants, btnGlobalPlants;
     String userId;
 
     @Override
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPlant.setOnClickListener(this);
         btnStatus.setOnClickListener(this);
         btnPlants.setOnClickListener(this);
+        btnGlobalPlants.setOnClickListener(this);
     }
 
     private void initUI(){
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPlant = findViewById(R.id.btnCreatePlant);
         btnStatus = findViewById(R.id.btnStatus);
         btnPlants = findViewById(R.id.btnPlants);
-
+        btnGlobalPlants = findViewById(R.id.btnGlobalPlants);
     }
 
     @Override
@@ -72,9 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             sendToPlants(userId);
 
+        }else if (id == R.id.btnGlobalPlants) {
+
+            sendToGlobalPlants(userId);
+
         }
-
-
 
     }
 
@@ -112,6 +115,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sendData.putString("id", String.valueOf(userId));
         i.putExtras(sendData);
         startActivity(i);
+    }
+
+    public void sendToGlobalPlants(String userId) {
+
+        Intent i = new Intent(MainActivity.this, GlobalPlantsActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userId));
+        i.putExtras(sendData);
+        startActivity(i);
+
     }
 
     public void sendToStatus(String userId) {

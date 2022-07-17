@@ -27,6 +27,9 @@
             android:name=".activity.PlantListActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.GlobalPlantsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.statusActivity"
             android:exported="false" />
         <activity
