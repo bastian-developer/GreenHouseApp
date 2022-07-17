@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.GlobalPlantListAdapter;
 import com.greenhouse.greenhouseapp.controller.PlantListAdapter;
 import com.greenhouse.greenhouseapp.model.Plant;
 
@@ -55,7 +56,7 @@ public class GlobalPlantsActivity extends AppCompatActivity {
         searchPlants();
 
         //creating the adapter
-        PlantListAdapter adapter = new PlantListAdapter(GlobalPlantsActivity.this, R.layout.custom_list, plantList, userID);
+        GlobalPlantListAdapter adapter = new GlobalPlantListAdapter(GlobalPlantsActivity.this, R.layout.custom_global_list, plantList, userID);
         //attaching adapter to the listview
         listView.setAdapter(adapter);
     }
