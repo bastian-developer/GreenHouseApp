@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
 
@@ -85,6 +85,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
+
+            /*
             String encryptedPassword = null;
 
             try {
@@ -94,7 +96,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
 
-            login(email, encryptedPassword);
+             */
+
+            //login(email, encryptedPassword);
+            login(email, password);
 
 
         } else if (id == R.id.btnRegister) {
@@ -112,6 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         checkSession();
     }
 
+    /*
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String encrypt(String password) throws Exception {
         SecretKeySpec key = generateKey(password);
@@ -142,6 +148,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
         return secretKeySpec;
     }
+
+
+     */
 
     private void checkSession() {
 
