@@ -78,7 +78,7 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
         Button buttonInfo = view.findViewById(R.id.buttonInfo);
         Button buttonCopy = view.findViewById(R.id.buttonCopy);
 
-        //getting the hero of the specified position
+        //getting the plant of the specified position
         Plant plant = plantList.get(position);
 
         //adding values to the list item
@@ -89,11 +89,8 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
         buttonCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //we will call this method to remove the selected value from the list
-                //we are passing the position which is to be removed in the method
-                //removePlant(position);
-                //deletePlant(String.valueOf(plant.get_id()));
-                Toast.makeText(context, "shuta", Toast.LENGTH_SHORT).show();
+
+                copyPlant(String.valueOf(plant.get_id()));
 
             }
         });
@@ -155,49 +152,20 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
         }
     }
 
-    //this method will remove the item from the list
-    private void removePlant(final int position) {
-        //Creating an alert dialog to confirm the deletion
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Are you sure you want to delete this?");
 
-        //if the response is positive in the alert
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                //removing the item
-                plantList.remove(position);
-
-                //reloading the list
-                notifyDataSetChanged();
-            }
-        });
-
-        //if response is negative nothing is being done
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-
-        //creating and displaying the alert dialog
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    private void deletePlant(final String idPlant) {
+    private void copyPlant(final String idPlant) {
 
         requestQueue = Volley.newRequestQueue(context);
 
-        String URLDB = "http://192.168.0.3/greenhousedb/deletePlant.php";
+        String URLDB = "http://192.168.0.3/greenhousedb/copyPlant.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URLDB,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+
 
                     }
                 },
@@ -212,6 +180,8 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("id", idPlant);
+                params.put("userId", userID);
+
                 return params;
             }
         };
