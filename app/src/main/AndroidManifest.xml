@@ -36,6 +36,9 @@
             android:name=".activity.PlantActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.PlantInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.UserActivity"
             android:exported="false" />
         <activity

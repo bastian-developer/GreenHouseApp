@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.activity.EditPlantActivity;
+import com.greenhouse.greenhouseapp.activity.PlantInfoActivity;
 import com.greenhouse.greenhouseapp.model.Plant;
 
 import java.io.InputStream;
@@ -99,7 +100,7 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
             @Override
             public void onClick(View view) {
 
-                //sendToEditPlant(String.valueOf(plant.get_id()), userID);
+                sendToPlantInfo(String.valueOf(plant.get_id()), userID);
 
             }
         });
@@ -108,9 +109,9 @@ public class GlobalPlantListAdapter extends ArrayAdapter<Plant> {
         return view;
     }
 
-    public void sendToEditPlant(String id, String userID) {
+    public void sendToPlantInfo(String id, String userID) {
 
-        Intent i = new Intent(context, EditPlantActivity.class);
+        Intent i = new Intent(context, PlantInfoActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 
         Bundle sendData = new Bundle();
