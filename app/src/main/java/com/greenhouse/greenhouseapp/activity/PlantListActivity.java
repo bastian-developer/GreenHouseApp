@@ -56,7 +56,7 @@ public class PlantListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
 
         //Hardcoding this tomato to fix bug
-        plantList.add(new Plant(1,1, "Tomate", "Fruit", "Asia", "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png"));
+        plantList.add(new Plant(1,1, "Gabbage", "Fruit", "Asia", "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png"));
 
         //Fill list with user plants
         searchPlants();
