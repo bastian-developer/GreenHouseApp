@@ -163,12 +163,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+
+        /*
         String encryptedPassword = "";
         try {
             encryptedPassword = encrypt(password);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+         */
 
         //Hardcode
         String photo = "http://192.168.0.3/greenhousedb/user_uploads/image.jpg";
@@ -179,11 +183,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 spinnerCity.getSelectedItem().toString() + ", " +
                 etStreet.getText().toString().trim();
 
-        userControl.createUser(name, email, encryptedPassword, address, photo, isBlocked, RegisterActivity.this);
+        userControl.createUser(name, email, password, address, photo, isBlocked, RegisterActivity.this);
 
     }
 
-    //!!!!!!!
+    /*
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String encrypt(String password) throws Exception {
         SecretKeySpec key = generateKey(password);
@@ -208,6 +212,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return secretKeySpec;
     }
 
+
+     */
 
     public void sendToLogIn() {
         Intent intent = new Intent(this, LoginActivity.class);
