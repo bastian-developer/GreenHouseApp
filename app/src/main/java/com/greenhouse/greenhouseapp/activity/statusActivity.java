@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenhouse.greenhouseapp.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.UUID;
 
 public class statusActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,9 +32,16 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     Button btnConnect;
     Spinner spinnerDevices;
 
+    boolean connectionSwitch = false;
+
     BluetoothAdapter BTAdapter = null;
     Set<BluetoothDevice> BTPairedDevices = null;
 
+    BluetoothDevice BTDevice = null;
+
+    BluetoothSocket BTSocket = null;
+
+    static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @SuppressLint("MissingPermission")
     @Override
@@ -50,6 +61,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
 
         btnConnect.setOnClickListener(this);
+
 
         //BT
 
@@ -120,6 +132,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         spinnerDevices = findViewById(R.id.spinnerDevices);
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onClick(View v) {
 
@@ -128,6 +141,63 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         if (id == R.id.btnConnect) {
 
             Log.d(TAG, "BTN Connect pressed");
+
+            if (connectionSwitch == false) {
+                if (spinnerDevices.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(getApplicationContext(), "Select Device", Toast.LENGTH_SHORT).show();
+
+                }
+
+                String selectedDeviceName = spinnerDevices.getSelectedItem().toString();
+
+                Log.d(TAG, "Selected device: " + selectedDeviceName);
+
+
+                for (BluetoothDevice BTDev : BTPairedDevices) {
+
+                    if (selectedDeviceName.equals(BTDev.getName())) {
+
+                        BTDevice = BTDev;
+
+                        try {
+
+                            Log.d(TAG, "Creating Socket, app UUID: " + MY_UUID);
+
+                            BTSocket = BTDevice.createRfcommSocketToServiceRecord(MY_UUID);
+
+                            Log.d(TAG, "Connecting to device");
+
+                            //APP will freeze until connected
+                            BTSocket.connect();
+                            Log.d(TAG, "Connected");
+                            Toast.makeText(getApplicationContext(), "Connected to " + selectedDeviceName, Toast.LENGTH_SHORT).show();
+                            btnConnect.setText("Disconnect");
+                            connectionSwitch = true;
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "Exception: " + e);
+                            connectionSwitch = false;
+                        }
+
+                    }
+
+                }
+
+                Log.d(TAG, "Selected device UUID: " + BTDevice.getAddress());
+
+            } else {
+
+                connectionSwitch = false;
+                try {
+                    BTSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
 
         }
 
