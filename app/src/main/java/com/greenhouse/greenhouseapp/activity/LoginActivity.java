@@ -101,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //login(email, encryptedPassword);
             login(email, password);
 
+            sendToMenu(45);
+
 
         } else if (id == R.id.btnRegister) {
 
