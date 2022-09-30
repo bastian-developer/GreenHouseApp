@@ -2,12 +2,17 @@ package com.greenhouse.greenhouseapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -50,8 +55,8 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-
-
+    //BT PERMISSION
+    //private boolean isBTConnectOk(){return ContextCompat.checkSelfPermission(statusActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED;}
 
 
 
@@ -252,6 +257,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         } else if (id == R.id.btnSend) {
             sendMessage("OMG");
             Log.d(TAG, "OMG");
+            //Toast.makeText(getApplicationContext(), "OMG", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -469,13 +475,16 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
     public void sendMessage(String sMessage)
     {
-        if( BTSocket!= null && iBTConnectionStatus==BT_CON_STATUS_CONNECTED)
+        //if( BTSocket!= null && iBTConnectionStatus==BT_CON_STATUS_CONNECTED)
+        if( 1 == 1)
         {
-            if(BTSocket.isConnected() )
+            //if(BTSocket.isConnected() )
+            if(1 == 1)
             {
                 try {
                     cBTInitSendReceive.write(sMessage.getBytes());
                     tvSoilHumidity.append("\r\n-> " + sMessage);
+                    Toast.makeText(getApplicationContext(), "OMG", Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception exp)
                 {

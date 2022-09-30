@@ -195,7 +195,7 @@ public class PlantListAdapter extends ArrayAdapter<Plant> {
 
         requestQueue = Volley.newRequestQueue(context);
 
-        String URLDB = "http://192.168.0.3/greenhousedb/deletePlant.php";
+        String URLDB = "http://10.42.16.192/greenhousedb/deletePlant.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URLDB,

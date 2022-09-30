@@ -51,7 +51,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
     Bitmap bitmap, bitmapIcon;
     RequestQueue requestQueue;
 
-    public static final String UPLOAD_URL = "http://192.168.0.3/greenhousedb/savePlantImage.php";
+    public static final String UPLOAD_URL = "http://10.42.16.192/greenhousedb/savePlantImage.php";
     public static final String UPLOAD_KEY = "image";
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -184,7 +184,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void editPlant(final String name, final String type, final String origin) {
-        String URLDB = "http://192.168.0.3/greenhousedb/editPlant.php";
+        String URLDB = "http://10.42.16.192/greenhousedb/editPlant.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URLDB,
@@ -220,7 +220,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void searchPlant() {
-        String URLDB = "http://192.168.0.3/greenhousedb/searchPlant.php?id=" + plantID;
+        String URLDB = "http://10.42.16.192/greenhousedb/searchPlant.php?id=" + plantID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,

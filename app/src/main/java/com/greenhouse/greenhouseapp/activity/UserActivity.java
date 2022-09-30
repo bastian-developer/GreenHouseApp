@@ -59,7 +59,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     CircleImageView profileImage;
 
     //IMAGE
-    public static final String UPLOAD_URL = "http://192.168.0.3/greenhousedb/saveProfileImage.php";
+    public static final String UPLOAD_URL = "http://10.42.16.192/greenhousedb/saveProfileImage.php";
     public static final String UPLOAD_KEY = "image";
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -193,7 +193,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void editProfile(final String name, final String email, final String password) {
-        String URLDB = "http://192.168.0.3/greenhousedb/editUser.php";
+        String URLDB = "http://10.42.16.192/greenhousedb/editUser.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URLDB,
@@ -228,7 +228,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void searchUser() {
-        String URLDB = "http://192.168.0.3/greenhousedb/searchUser.php?id=" + userID;
+        String URLDB = "http://10.42.16.192/greenhousedb/searchUser.php?id=" + userID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,

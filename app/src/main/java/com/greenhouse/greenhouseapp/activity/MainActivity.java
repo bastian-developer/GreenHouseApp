@@ -1,9 +1,14 @@
 package com.greenhouse.greenhouseapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         userId = extras.getString("id");
 
-
         initUI();
 
         btnLogOut.setOnClickListener(this);
@@ -36,6 +40,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStatus.setOnClickListener(this);
         btnPlants.setOnClickListener(this);
         btnGlobalPlants.setOnClickListener(this);
+
+
+        //Explicit Bluetooth Permission
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, 2);
+                return;
+            }
+        }
     }
 
     private void initUI(){

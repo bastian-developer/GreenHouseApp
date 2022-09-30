@@ -101,6 +101,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //login(email, encryptedPassword);
             login(email, password);
 
+
+            //BREAK ENTER--------------
             sendToMenu(45);
 
 
@@ -167,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void login(String email, String encryptedPassword) {
-        String URLDB = "http://192.168.0.3/greenhouseDB/login.php?email=" + email + "&password=" + encryptedPassword;
+        String URLDB = "http://10.42.16.192/greenhouseDB/login.php?email=" + email + "&password=" + encryptedPassword;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,

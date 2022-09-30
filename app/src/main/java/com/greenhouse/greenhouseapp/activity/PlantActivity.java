@@ -29,7 +29,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
 
     RequestQueue requestQueue;
 
-    private static final String URLDB = "http://192.168.0.3/greenhousedb/savePlant.php";
+    private static final String URLDB = "http://10.42.16.192/greenhousedb/savePlant.php";
 
 
     @Override
@@ -73,7 +73,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
             //String photos = etPhotos.getText().toString().trim();
 
             //HARDCODE
-            String photos = "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png";
+            String photos = "http://10.42.16.192/greenhousedb/user_uploads/cabbage.png";
 
             createPlant(name, type, origin, photos);
             sendToMenu();

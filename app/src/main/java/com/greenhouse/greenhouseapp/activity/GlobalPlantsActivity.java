@@ -50,7 +50,7 @@ public class GlobalPlantsActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
 
         //Hardcoding this lechugon to fix bug
-        plantList.add(new Plant(1,1, "Lechugòn", "Fruit", "Asia", "http://192.168.0.3/greenhousedb/user_uploads/cabbage.png"));
+        plantList.add(new Plant(1,1, "Lechugòn", "Fruit", "Asia", "http://10.42.16.192/greenhousedb/user_uploads/cabbage.png"));
 
         //Fill list with user plants
         searchPlants();
@@ -62,7 +62,7 @@ public class GlobalPlantsActivity extends AppCompatActivity {
 
     public void searchPlants() {
         requestQueue = Volley.newRequestQueue(GlobalPlantsActivity.this);
-        String URL = "http://192.168.0.3/greenhousedb/populateAllPlants.php";
+        String URL = "http://10.42.16.192/greenhousedb/populateAllPlants.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URL,
