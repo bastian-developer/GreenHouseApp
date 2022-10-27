@@ -69,7 +69,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvAirHumidity"
+        android:id="@+id/tvArduinoInfo"
+        android:background="@color/white"
         android:text=""
         android:textSize="35sp"
         android:textColor="@color/darkGreen"
@@ -120,18 +121,38 @@
         android:text="Connect"
         android:backgroundTint="@color/lightGreen"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/btnSend"
-        android:text="OMG"
+        android:id="@+id/btnFan"
+        android:text="Fan"
         android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="25dp"
+        android:textColor="@color/black"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/btnLights"
+        android:text="Lights"
+        android:backgroundTint="@color/lightGreen"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="25dp"
+        android:textColor="@color/black"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/btnWaterPump"
+        android:text="WaterPump"
+        android:backgroundTint="@color/lightGreen"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="25dp"
         android:textColor="@color/black"/>
 

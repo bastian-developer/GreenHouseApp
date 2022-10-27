@@ -1,18 +1,12 @@
 package com.greenhouse.greenhouseapp.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,12 +29,16 @@ import java.util.UUID;
 
 public class statusActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "DEBUG_SA";
-
     //APP VARIABLES
+    private static final String TAG = "DEBUG_SA";
     String userId;
-    TextView tvAirHumidity, tvSoilHumidity, tvTemperature;
-    Button btnConnect, btnSend;
+    int fanSwitch = 0;
+    int lightsSwitch = 0;
+    int waterPumpSwitch = 0;
+
+    //UI VARIABLES
+    TextView tvArduinoInfo;
+    Button btnConnect, btnWaterPump, btnFan, btnLights;
     Spinner spinnerDevices;
 
     //BT VARIABLES
@@ -58,7 +56,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     static public final int BT_CON_STATUS_CONNECTING        =1;
     static public final int BT_CON_STATUS_CONNECTED         =2;
     static public final int BT_CON_STATUS_FAILED            =3;
-    static public final int BT_CON_STATUS_CONNECTiON_LOST   =4;
+    static public final int BT_CON_STATUS_CONNECTION_LOST   =4;
     static public int iBTConnectionStatus = BT_CON_STATUS_NOT_CONNECTED;
     static final int BT_STATE_LISTENING            =1;
     static final int BT_STATE_CONNECTING           =2;
@@ -81,7 +79,9 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         //Setup UI
         initUI();
         btnConnect.setOnClickListener(this);
-        btnSend.setOnClickListener(this);
+        btnWaterPump.setOnClickListener(this);
+        btnFan.setOnClickListener(this);
+        btnLights.setOnClickListener(this);
 
         //Get BT Paired Devices
         getBTPairedDevices();
@@ -113,11 +113,11 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initUI() {
-        tvAirHumidity = findViewById(R.id.tvAirHumidity);
-        //tvSoilHumidity = findViewById(R.id.tvSoilHumidity);
-        //tvTemperature = findViewById(R.id.tvTemperature);
+        tvArduinoInfo = findViewById(R.id.tvArduinoInfo);
         btnConnect = findViewById(R.id.btnConnect);
-        btnSend = findViewById(R.id.btnSend);
+        btnWaterPump = findViewById(R.id.btnWaterPump);
+        btnFan = findViewById(R.id.btnFan);
+        btnLights = findViewById(R.id.btnLights);
         spinnerDevices = findViewById(R.id.spinnerDevices);
     }
 
@@ -153,6 +153,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                         BTDevice = BTDev;
                         cBluetoothConnect cBTConnect = new cBluetoothConnect(BTDevice);
                         cBTConnect.start();
+                        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 
                         //Why the app still works without this?
                         /*
@@ -195,12 +196,64 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
             }
 
-        //Button Send
-        } else if (id == R.id.btnSend) {
+        //Button Water Pump
+        } else if (id == R.id.btnWaterPump) {
 
-            sendMessage("1", BTSocket);
-            Log.d(TAG, "BTN SEND CLICKED");
-            //Toast.makeText(getApplicationContext(), "OMG", Toast.LENGTH_SHORT).show();
+
+            if (waterPumpSwitch == 0) {
+
+                //Turn ON Water Pump
+                sendMessage("5", BTSocket);
+                Log.d(TAG, "BTN SEND CLICKED");
+                Toast.makeText(getApplicationContext(), "Water ON", Toast.LENGTH_SHORT).show();
+                waterPumpSwitch = 1;
+
+            } else {
+
+                //Turn OFF Water Pump
+                sendMessage("6", BTSocket);
+                Log.d(TAG, "BTN SEND CLICKED");
+                Toast.makeText(getApplicationContext(), "Water OFF", Toast.LENGTH_SHORT).show();
+                waterPumpSwitch = 0;
+            }
+
+        }else if (id == R.id.btnFan) {
+
+            if (fanSwitch == 0) {
+
+                //Turn ON Fan
+                sendMessage("1", BTSocket);
+                Log.d(TAG, "BTN FAN ON");
+                Toast.makeText(getApplicationContext(), "Fan ON", Toast.LENGTH_SHORT).show();
+                fanSwitch = 1;
+
+            } else {
+
+                //Turn OFF Fan
+                sendMessage("3", BTSocket);
+                Log.d(TAG, "BTN FAN OFF");
+                Toast.makeText(getApplicationContext(), "Fan OFF", Toast.LENGTH_SHORT).show();
+                fanSwitch = 0;
+            }
+
+        }else if (id == R.id.btnLights) {
+
+            if (lightsSwitch == 0) {
+
+                //Turn ON Lights
+                sendMessage("2", BTSocket);
+                Log.d(TAG, "BTN LIGHTS ON");
+                Toast.makeText(getApplicationContext(), "Lights ON", Toast.LENGTH_SHORT).show();
+                lightsSwitch = 1;
+
+            } else {
+
+                //Turn OFF Lights
+                sendMessage("4", BTSocket);
+                Log.d(TAG, "BTN LIGHTS OFF");
+                Toast.makeText(getApplicationContext(), "Lights OFF", Toast.LENGTH_SHORT).show();
+                lightsSwitch = 0;
+            }
         }
 
     }
@@ -332,7 +385,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(TAG, "BT disconnect from decide end, exp " + e.getMessage());
-                    iBTConnectionStatus=BT_CON_STATUS_CONNECTiON_LOST;
+                    iBTConnectionStatus=BT_CON_STATUS_CONNECTION_LOST;
                     try {
                         //disconnect bluetooth
                         Log.d(TAG, "Disconnecting BTConnection");
@@ -398,7 +451,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                     byte[] readBuff= (byte[]) msg.obj;
                     String tempMsg=new String(readBuff,0,msg.arg1);
                     Log.d(TAG, "Message receive ( " + tempMsg.length() + " )  data : " + tempMsg);
-                    tvAirHumidity.append(tempMsg);
+                    tvArduinoInfo.append(tempMsg);
                     break;
 
             }
@@ -419,7 +472,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
             {
                 try {
                     cBTInitSendReceive.write(sMessage.getBytes());
-                    tvSoilHumidity.append("\r\n-> " + sMessage);
+                    //tvArduinoInfo.append("\r\n-> " + sMessage);
                     Log.d(TAG, "sendMessage function " + sMessage);
                 }
                 catch (Exception exp)
@@ -430,7 +483,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         }
         else {
             Toast.makeText(getApplicationContext(), "Please connect to bluetooth", Toast.LENGTH_SHORT).show();
-            tvSoilHumidity.append("\r\n Not connected to bluetooth");
+            tvArduinoInfo.append("\r\n Not connected to bluetooth");
         }
     }
 }
