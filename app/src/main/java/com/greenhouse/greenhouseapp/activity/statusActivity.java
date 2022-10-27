@@ -37,53 +37,34 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final String TAG = "DEBUG_SA";
 
+    //APP VARIABLES
     String userId;
     TextView tvAirHumidity, tvSoilHumidity, tvTemperature;
     Button btnConnect, btnSend;
     Spinner spinnerDevices;
 
-    boolean connectionSwitch = false;
-
+    //BT VARIABLES
     BluetoothAdapter BTAdapter = null;
     Set<BluetoothDevice> BTPairedDevices = null;
-
     BluetoothDevice BTDevice = null;
-
     BluetoothSocket BTSocket = null;
 
     static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
-
-
-    //BT PERMISSION
-    //private boolean isBTConnectOk(){return ContextCompat.checkSelfPermission(statusActivity.this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED;}
-
-
-
+    boolean connectionSwitch = false;
     classBTInitDataCommunication cBTInitSendReceive =null;
 
+    //BT STATES
     static public final int BT_CON_STATUS_NOT_CONNECTED     =0;
     static public final int BT_CON_STATUS_CONNECTING        =1;
     static public final int BT_CON_STATUS_CONNECTED         =2;
     static public final int BT_CON_STATUS_FAILED            =3;
     static public final int BT_CON_STATUS_CONNECTiON_LOST   =4;
     static public int iBTConnectionStatus = BT_CON_STATUS_NOT_CONNECTED;
-
     static final int BT_STATE_LISTENING            =1;
     static final int BT_STATE_CONNECTING           =2;
     static final int BT_STATE_CONNECTED            =3;
     static final int BT_STATE_CONNECTION_FAILED    =4;
     static final int BT_STATE_MESSAGE_RECEIVED     =5;
-
-    String sM1Index="",sM1Data="";
-    String sM2Index="",sM2Data="";
-    String sM3Index="",sM3Data="";
-    String sM4Index="",sM4Data="";
-    String sM5Index="",sM5Data="";
-    String sM6Index="",sM6Data="";
-    String sM7Index="",sM7Data="";
-    String sM8Index="",sM8Data="";
-
 
     @SuppressLint("MissingPermission")
     @Override
@@ -93,52 +74,17 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
         Log.d(TAG, "onCreate Start");
 
+        //Retrieve User ID
         Bundle extras = getIntent().getExtras();
         userId = extras.getString("id");
 
+        //Setup UI
         initUI();
-
-
         btnConnect.setOnClickListener(this);
         btnSend.setOnClickListener(this);
 
-
-        //BT
-
-        BTAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (BTAdapter == null) {
-            Log.e(TAG, "getBTPairedDevices, BTAdapter null");
-        } else if (!BTAdapter.isEnabled()) {
-            Log.e(TAG, "getBTPairedDevices, BT Not Enabled");
-        }
-
-        BTPairedDevices = BTAdapter.getBondedDevices();
-
-        Log.e(TAG, "getBTPairedDevices, Paired Devices Count = " + BTPairedDevices.size());
-
-        //Populate spinner
-
-        ArrayList<String> allPairedDevices = new ArrayList<>();
-
-        ArrayAdapter<String> arrayAdapterPairedDevices;
-
-        allPairedDevices.add("Select Device");
-
-
-        for (BluetoothDevice BTDev : BTPairedDevices) {
-
-            Log.d(TAG, BTDev.getName() + ", " + BTDev.getAddress());
-
-            allPairedDevices.add(BTDev.getName());
-
-            Log.d(TAG, allPairedDevices.get(1));
-            arrayAdapterPairedDevices = new ArrayAdapter<>(statusActivity.this,
-                    R.layout.color_spinner_layout, allPairedDevices);
-            arrayAdapterPairedDevices.setDropDownViewResource(R.layout.color_spinner_layout);
-            spinnerDevices.setAdapter((arrayAdapterPairedDevices));
-
-        }
+        //Get BT Paired Devices
+        getBTPairedDevices();
 
     }
 
@@ -155,6 +101,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         super.onPause();
 
         Log.d(TAG, "onPause Start");
+
     }
 
     @Override
@@ -162,6 +109,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         super.onDestroy();
 
         Log.d(TAG, "onDestroy Start");
+
     }
 
     private void initUI() {
@@ -177,40 +125,41 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
 
+        //Get View
         int id = v.getId();
 
+        //Connect Button
         if (id == R.id.btnConnect) {
 
             Log.d(TAG, "BTN Connect pressed");
 
             if (connectionSwitch == false) {
+
+                //Validation
                 if (spinnerDevices.getSelectedItemPosition() == 0) {
-
                     Toast.makeText(getApplicationContext(), "Select Device", Toast.LENGTH_SHORT).show();
-
                 }
 
+                //Get Selected Device
                 String selectedDeviceName = spinnerDevices.getSelectedItem().toString();
-
                 Log.d(TAG, "Selected device: " + selectedDeviceName);
 
-
+                //Match selected device in paired devices list
                 for (BluetoothDevice BTDev : BTPairedDevices) {
 
                     if (selectedDeviceName.equals(BTDev.getName())) {
 
+                        //Get device and connect
                         BTDevice = BTDev;
-
                         cBluetoothConnect cBTConnect = new cBluetoothConnect(BTDevice);
                         cBTConnect.start();
 
+                        //Why the app still works without this?
                         /*
                         try {
 
                             Log.d(TAG, "Creating Socket, app UUID: " + MY_UUID);
-
                             BTSocket = BTDevice.createRfcommSocketToServiceRecord(MY_UUID);
-
                             Log.d(TAG, "Connecting to device");
 
                             //APP will freeze until connected
@@ -219,18 +168,12 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                             Toast.makeText(getApplicationContext(), "Connected to " + selectedDeviceName, Toast.LENGTH_SHORT).show();
                             btnConnect.setText("Disconnect");
                             connectionSwitch = true;
-                            tvAirHumidity.setText("46%");
-                            tvSoilHumidity.setText("19%");
-                            tvTemperature.setText("28,26");
-
 
                         } catch (IOException e) {
                             e.printStackTrace();
                             Log.d(TAG, "Exception: " + e);
                             connectionSwitch = false;
                         }
-
-
                          */
                     }
 
@@ -240,8 +183,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
             } else {
 
-
-
+                //Disconnect from BT Device
                 connectionSwitch = false;
                 btnConnect.setText("Connect");
                 try {
@@ -253,20 +195,22 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
             }
 
-
+        //Button Send
         } else if (id == R.id.btnSend) {
-            sendMessage("OMG");
-            Log.d(TAG, "OMG");
+
+            sendMessage("1", BTSocket);
+            Log.d(TAG, "BTN SEND CLICKED");
             //Toast.makeText(getApplicationContext(), "OMG", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    //Redirect to menu with user data
     @Override
     public void onBackPressed() {
         sendToMenu();
     }
-
+    //
     public void sendToMenu() {
         Intent i = new Intent(statusActivity.this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -276,6 +220,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(i);
     }
 
+    //GET BT PAIRED DEVICES
     @SuppressLint("MissingPermission")
     public void getBTPairedDevices() {
         BTAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -293,18 +238,14 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         //Populate spinner
 
         ArrayList<String> allPairedDevices = new ArrayList<>();
-
         ArrayAdapter<String> arrayAdapterPairedDevices;
-
         allPairedDevices.add("Select Device");
 
 
         for (BluetoothDevice BTDev : BTPairedDevices) {
 
             Log.d(TAG, BTDev.getName() + ", " + BTDev.getAddress());
-
             allPairedDevices.add(BTDev.getName());
-
             Log.d(TAG, allPairedDevices.get(1));
             arrayAdapterPairedDevices = new ArrayAdapter<>(statusActivity.this,
                     R.layout.color_spinner_layout, allPairedDevices);
@@ -314,15 +255,9 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         }
 
 
-        //allPairedDevices.add("Select Device");
-
-
-        //final ArrayAdapter<String> arrayAdapterPairedDevices = new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, allPairedDevices);
-        //arrayAdapterPairedDevices.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-        //spinnerDevices.setAdapter(arrayAdapterPairedDevices);
-
     }
 
+    //Connect to BT Method
     @SuppressLint("MissingPermission")
     public class cBluetoothConnect extends Thread {
 
@@ -359,53 +294,6 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
-    Handler handler =new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-
-            switch (msg.what)
-            {
-                case BT_STATE_LISTENING:
-                    Log.d(TAG, "BT_STATE_LISTENING");
-                    break;
-                case BT_STATE_CONNECTING:
-                    iBTConnectionStatus = BT_CON_STATUS_CONNECTING;
-                    btnConnect.setText("Connecting..");
-                    Log.d(TAG, "BT_STATE_CONNECTING");
-                    break;
-                case BT_STATE_CONNECTED:
-
-                    iBTConnectionStatus = BT_CON_STATUS_CONNECTED;
-
-                    Log.d(TAG, "BT_CON_STATUS_CONNECTED");
-                    btnConnect.setText("Disconnect");
-
-                    classBTInitDataCommunication cBTInitSendReceive = new classBTInitDataCommunication(BTSocket);
-                    cBTInitSendReceive.start();
-
-                    connectionSwitch = true;
-                    break;
-                case BT_STATE_CONNECTION_FAILED:
-                    iBTConnectionStatus = BT_CON_STATUS_FAILED;
-                    Log.d(TAG, "BT_STATE_CONNECTION_FAILED");
-                    connectionSwitch = false;
-                    break;
-
-                case BT_STATE_MESSAGE_RECEIVED:
-                    byte[] readBuff= (byte[]) msg.obj;
-                    String tempMsg=new String(readBuff,0,msg.arg1);
-                    Log.d(TAG, "Message receive ( " + tempMsg.length() + " )  data : " + tempMsg);
-
-                    tvAirHumidity.append(tempMsg);
-
-
-                    break;
-
-            }
-            return true;
-        }
-    });
 
     public class classBTInitDataCommunication extends Thread
     {
@@ -471,20 +359,68 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
         }
+        //
     }
 
-    public void sendMessage(String sMessage)
+    Handler handler =new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+
+            switch (msg.what)
+            {
+                case BT_STATE_LISTENING:
+                    Log.d(TAG, "BT_STATE_LISTENING");
+                    break;
+                case BT_STATE_CONNECTING:
+                    iBTConnectionStatus = BT_CON_STATUS_CONNECTING;
+                    btnConnect.setText("Connecting..");
+                    Log.d(TAG, "BT_STATE_CONNECTING");
+                    break;
+                case BT_STATE_CONNECTED:
+
+                    iBTConnectionStatus = BT_CON_STATUS_CONNECTED;
+
+                    Log.d(TAG, "BT_CON_STATUS_CONNECTED");
+                    btnConnect.setText("Disconnect");
+
+                    classBTInitDataCommunication cBTInitSendReceive = new classBTInitDataCommunication(BTSocket);
+                    cBTInitSendReceive.start();
+
+                    connectionSwitch = true;
+                    break;
+                case BT_STATE_CONNECTION_FAILED:
+                    iBTConnectionStatus = BT_CON_STATUS_FAILED;
+                    Log.d(TAG, "BT_STATE_CONNECTION_FAILED");
+                    connectionSwitch = false;
+                    break;
+
+                case BT_STATE_MESSAGE_RECEIVED:
+                    byte[] readBuff= (byte[]) msg.obj;
+                    String tempMsg=new String(readBuff,0,msg.arg1);
+                    Log.d(TAG, "Message receive ( " + tempMsg.length() + " )  data : " + tempMsg);
+                    tvAirHumidity.append(tempMsg);
+                    break;
+
+            }
+            return true;
+        }
+    });
+
+
+    @SuppressLint("MissingPermission")
+    public void sendMessage(String sMessage, BluetoothSocket BTSocket)
     {
-        //if( BTSocket!= null && iBTConnectionStatus==BT_CON_STATUS_CONNECTED)
-        if( 1 == 1)
+        //Instance send/receive class again?
+        cBTInitSendReceive = new classBTInitDataCommunication(BTSocket);
+        Log.d(TAG, "sendMessage function " + sMessage);
+        if(BTSocket!= null && iBTConnectionStatus==BT_CON_STATUS_CONNECTED)
         {
-            //if(BTSocket.isConnected() )
-            if(1 == 1)
+            if(BTSocket.isConnected())
             {
                 try {
                     cBTInitSendReceive.write(sMessage.getBytes());
                     tvSoilHumidity.append("\r\n-> " + sMessage);
-                    Toast.makeText(getApplicationContext(), "OMG", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "sendMessage function " + sMessage);
                 }
                 catch (Exception exp)
                 {
@@ -496,11 +432,5 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(getApplicationContext(), "Please connect to bluetooth", Toast.LENGTH_SHORT).show();
             tvSoilHumidity.append("\r\n Not connected to bluetooth");
         }
-
     }
-
-
-
-
-
 }
