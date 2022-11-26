@@ -1,12 +1,23 @@
 package com.greenhouse.greenhouseapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.RingtoneManager;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,14 +43,32 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     //APP VARIABLES
     private static final String TAG = "DEBUG_SA";
     String userId;
+    String keyCharacter;
+    String temporalValue;
     int fanSwitch = 0;
     int lightsSwitch = 0;
     int waterPumpSwitch = 0;
+    int temperature = 0;
+    int humidity = 0;
+    int moisture = 0;
+    int value = 0;
 
     //UI VARIABLES
     TextView tvArduinoInfo;
-    Button btnConnect, btnWaterPump, btnFan, btnLights;
+    TextView tvTemperature;
+    TextView tvHumidity;
+    TextView tvMoisture;
+    Button btnConnect;
+    Button btnWaterPump;
+    Button btnFan;
+    Button btnLights;
+    Button btnNotification;
     Spinner spinnerDevices;
+
+    //NOTIFICATION VARIABLES
+    private PendingIntent pendingIntent;
+    private final static String CHANNEL_ID = "NOTIFICATION";
+    private final static int NOTIFICATION_ID = 0;
 
     //BT VARIABLES
     BluetoothAdapter BTAdapter = null;
@@ -76,12 +105,13 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         Bundle extras = getIntent().getExtras();
         userId = extras.getString("id");
 
-        //Setup UI
+        //UI Setup
         initUI();
         btnConnect.setOnClickListener(this);
         btnWaterPump.setOnClickListener(this);
         btnFan.setOnClickListener(this);
         btnLights.setOnClickListener(this);
+        btnNotification.setOnClickListener(this);
 
         //Get BT Paired Devices
         getBTPairedDevices();
@@ -114,10 +144,14 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initUI() {
         tvArduinoInfo = findViewById(R.id.tvArduinoInfo);
+        tvTemperature = findViewById(R.id.tvTemperature);
+        tvHumidity = findViewById(R.id.tvHumidity);
+        tvMoisture = findViewById(R.id.tvMoisture);
         btnConnect = findViewById(R.id.btnConnect);
         btnWaterPump = findViewById(R.id.btnWaterPump);
         btnFan = findViewById(R.id.btnFan);
         btnLights = findViewById(R.id.btnLights);
+        btnNotification = findViewById(R.id.btnNotification);
         spinnerDevices = findViewById(R.id.spinnerDevices);
     }
 
@@ -153,7 +187,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                         BTDevice = BTDev;
                         cBluetoothConnect cBTConnect = new cBluetoothConnect(BTDevice);
                         cBTConnect.start();
-                        Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+
 
                         //Why the app still works without this?
                         /*
@@ -221,18 +255,18 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
             if (fanSwitch == 0) {
 
-                //Turn ON Fan
+                //Turn OFF Fan
                 sendMessage("1", BTSocket);
-                Log.d(TAG, "BTN FAN ON");
-                Toast.makeText(getApplicationContext(), "Fan ON", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "BTN FAN OFF");
+                Toast.makeText(getApplicationContext(), "Fan OFF", Toast.LENGTH_SHORT).show();
                 fanSwitch = 1;
 
             } else {
 
-                //Turn OFF Fan
+                //Turn ON Fan
                 sendMessage("3", BTSocket);
-                Log.d(TAG, "BTN FAN OFF");
-                Toast.makeText(getApplicationContext(), "Fan OFF", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "BTN FAN ON");
+                Toast.makeText(getApplicationContext(), "Fan ON", Toast.LENGTH_SHORT).show();
                 fanSwitch = 0;
             }
 
@@ -240,22 +274,94 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
 
             if (lightsSwitch == 0) {
 
-                //Turn ON Lights
+                //Turn OFF Lights
                 sendMessage("2", BTSocket);
-                Log.d(TAG, "BTN LIGHTS ON");
-                Toast.makeText(getApplicationContext(), "Lights ON", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "BTN LIGHTS OFF");
+                Toast.makeText(getApplicationContext(), "Lights OFF", Toast.LENGTH_SHORT).show();
                 lightsSwitch = 1;
 
             } else {
 
-                //Turn OFF Lights
+                //Turn ON Lights
                 sendMessage("4", BTSocket);
-                Log.d(TAG, "BTN LIGHTS OFF");
-                Toast.makeText(getApplicationContext(), "Lights OFF", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "BTN LIGHTS ON");
+                Toast.makeText(getApplicationContext(), "Lights ON", Toast.LENGTH_SHORT).show();
                 lightsSwitch = 0;
             }
+        }else if (id == R.id.btnNotification) {
+
+            sendNotification("Notification Button");
+
         }
 
+    }
+
+    //Async Task
+    public void thread(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void _execute(){
+        asyncTask asyncTask = new asyncTask();
+        asyncTask.execute();
+    }
+
+    public class asyncTask extends AsyncTask<Void, Integer, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            for (int i = 1; i <3; i++) {
+                thread();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            _execute();
+            sendMessage("7", BTSocket);
+            sendMessage("8", BTSocket);
+            sendMessage("9", BTSocket);
+        }
+    }
+
+    //Notification
+    private void sendNotification(String message){
+        createNotificationChannel();
+        createNotification(message);
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Notification";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+    private void createNotification(String message){
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.cabbage_vegetables_vegetable_food_agriculture_icon_220781);
+        builder.setContentTitle("GreenHouse");
+        builder.setContentText(message);
+        builder.setColor(Color.GREEN);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000);
+        builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        builder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        Notification notification = builder.build();
+        notification.sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(NOTIFICATION_ID, notification);
     }
 
     //Redirect to menu with user data
@@ -336,6 +442,9 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 Message message = Message.obtain();
                 message.what=BT_STATE_CONNECTED;
                 handler.sendMessage(message);
+                //Execute Async Tasks
+                asyncTask asyncTask = new asyncTask();
+                asyncTask.execute();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -451,7 +560,8 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                     byte[] readBuff= (byte[]) msg.obj;
                     String tempMsg=new String(readBuff,0,msg.arg1);
                     Log.d(TAG, "Message receive ( " + tempMsg.length() + " )  data : " + tempMsg);
-                    tvArduinoInfo.append(tempMsg);
+
+                    dataManager(tempMsg);
                     break;
 
             }
@@ -459,6 +569,70 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         }
     });
 
+    public void dataManager(String message){
+
+        //Remove Numbers
+        keyCharacter = message.replaceAll("[0-9]", "");
+        //Remove �
+        keyCharacter = keyCharacter.replaceAll("�", "");
+        keyCharacter = keyCharacter.trim();
+
+        //Remove letters
+        temporalValue = message.replaceAll("[^0-9]", "");
+        //Remove �
+        temporalValue = temporalValue.replaceAll("�", "");
+        temporalValue = temporalValue.trim();
+
+        if (!temporalValue.equals("")) {
+            value = Integer.parseInt(temporalValue);
+        }
+
+        //if (keyCharacter.equals("T") && value >= 0) {
+        if (keyCharacter.equals("T")) {
+            temperature = value;
+            tvTemperature.setText("Temperature: " + temperature + "°C");
+
+            if (temperature > 30) {
+                sendNotification("High temperature level");
+                //Turn ON Fan
+                sendMessage("3", BTSocket);
+                fanSwitch = 0;
+            }
+
+        //} else if (keyCharacter.equals("H") && value >= 0) {
+        } else if (keyCharacter.equals("H")) {
+            humidity = value;
+            tvHumidity.setText("Humidity: " + humidity + "%");
+
+            if (humidity < 10) {
+                sendNotification("Low humidity level");
+            }
+            if (humidity > 90) {
+                sendNotification("High humidity level");
+            }
+
+        //} else if (keyCharacter.equals("M") && value >= 0) {
+        } else if (keyCharacter.equals("M")) {
+            moisture = value;
+            tvMoisture.setText("Moisture: " + moisture + "%");
+
+            if (moisture < 30) {
+                sendNotification("Hechale awita a la plantita");
+                //Turn water pump on
+                sendMessage("5", BTSocket);
+                waterPumpSwitch = 1;
+            } else {
+                //Turn water pump off
+                sendMessage("6", BTSocket);
+                waterPumpSwitch = 0;
+            }
+
+        } else if (!message.replaceAll("�", "").trim().equals("")) {
+            tvArduinoInfo.setText(message.replaceAll("�", "").trim());
+            //tvArduinoInfo.append(tempMsg);
+        }
+
+    }
 
     @SuppressLint("MissingPermission")
     public void sendMessage(String sMessage, BluetoothSocket BTSocket)
