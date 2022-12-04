@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
 import com.greenhouse.greenhouseapp.controller.PlantListAdapter;
 import com.greenhouse.greenhouseapp.model.Plant;
 
@@ -39,7 +42,10 @@ public class PlantListActivity extends AppCompatActivity {
 
     String userID;
 
+    Boolean _switch = false;
+
     RequestQueue requestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +62,29 @@ public class PlantListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
 
         //Hardcoding this lechugon to fix bug
-        plantList.add(new Plant(1,1, "Lechugòn", "Fruit", "Asia", "http://10.42.16.192/greenhousedb/user_uploads/cabbage.png"));
+        //plantList.add(new Plant(1,1, "Lechugon", "Fruit", "Asia", "http://"+ Connection.GLOBAL_IP + "/greenhousedb/user_uploads/cabbage.png"));
+        //plantList.add(new Plant(1,1, "Lechugon", "Fruit", "Asia", "http://"+ Connection.GLOBAL_IP + "/greenhousedb/user_uploads/cabbage.png"));
+
+        //Log.d("Plant 1: ", plantList.toString());
 
         //Fill list with user plants
-        searchPlants();
+        //searchPlants();
+
+        //Log.d("Plant 2: ", plantList.toString());
+
+        //Execute Async Tasks
+        PlantListActivity.asyncTask asyncTask = new PlantListActivity.asyncTask();
+        asyncTask.execute();
 
         //creating the adapter
-        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
+        //PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
         //attaching adapter to the listview
-        listView.setAdapter(adapter);
+        //listView.setAdapter(adapter);
     }
-
 
     public void searchPlants() {
         requestQueue = Volley.newRequestQueue(PlantListActivity.this);
-        String URL = "http://10.42.16.192/greenhousedb/populateUserPlants.php?userId=" + userID;
+        String URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/populateUserPlants.php?userId=" + userID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URL,
@@ -79,11 +93,14 @@ public class PlantListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        plantList.clear();
+
                         try {
 
                             JSONArray jsonArray = response.getJSONArray("plants");
 
-                            //Remove hardcoded tomato
+                            //JSONObject plantObject = response.getJSONObject("plants");
+                            //JSONArray songsArray = plantObject.toJSONArray();
                             //plantList.remove(0);
 
                             for (int i = 0; i<jsonArray.length(); i++) {
@@ -92,7 +109,6 @@ public class PlantListActivity extends AppCompatActivity {
 
                                 String id, userId, name, type, origin, photos;
 
-
                                 id = jsonObject.optString("id");
                                 userId = jsonObject.optString("userId");
                                 name = jsonObject.optString("name");
@@ -100,24 +116,27 @@ public class PlantListActivity extends AppCompatActivity {
                                 origin = jsonObject.optString("origin");
                                 photos = jsonObject.optString("photos");
 
-                                //Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
+                                Plant plantita = new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos);
 
+                                //plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));
 
-                                plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));
+                                plantList.add(plantita);
+                                Log.d("Plant: ", plantList.toString());
 
-
+                                _switch = true;
 
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.e("xd 1", "Plantlist Error: " + e);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e("xd 2", "Plantlist Error: " + error);
                     }
                 }
 
@@ -139,4 +158,61 @@ public class PlantListActivity extends AppCompatActivity {
         i.putExtras(sendData);
         startActivity(i);
     }
+
+    //Async Task
+    public void thread(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void _execute(){
+        PlantListActivity.asyncTask asyncTask = new PlantListActivity.asyncTask();
+        asyncTask.execute();
+    }
+
+    public class asyncTask extends AsyncTask<Void, Integer, Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            for (int i = 1; i <3; i++) {
+                thread();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            _execute();
+
+
+            if (_switch == false) {
+
+                searchPlants();
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
+                        listView.setAdapter(adapter);
+                    }
+                }, 5000);   //5 seconds
+
+
+            }
+
+
+            //searchPlants();
+
+            //Log.d("Plant 2: ", plantList.toString());
+
+            //creating the adapter
+            //PlantListAdapter adapter = new PlantListAdapter(PlantListActivity.this, R.layout.custom_list, plantList, userID);
+            //attaching adapter to the listview
+            //listView.setAdapter(adapter);
+        }
+    }
+
 }

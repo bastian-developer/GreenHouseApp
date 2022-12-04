@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
 import com.greenhouse.greenhouseapp.controller.RequestHandler;
 
 import org.json.JSONException;
@@ -59,7 +61,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     CircleImageView profileImage;
 
     //IMAGE
-    public static final String UPLOAD_URL = "http://10.42.16.192/greenhousedb/saveProfileImage.php";
+    public static final String UPLOAD_URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/saveProfileImage.php";
     public static final String UPLOAD_KEY = "image";
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -193,7 +195,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void editProfile(final String name, final String email, final String password) {
-        String URLDB = "http://10.42.16.192/greenhousedb/editUser.php";
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/editUser.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 URLDB,
@@ -228,7 +230,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void searchUser() {
-        String URLDB = "http://10.42.16.192/greenhousedb/searchUser.php?id=" + userID;
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchUser.php?id=" + userID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,
@@ -249,6 +251,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                             etPassword.setText(password);
 
                             new GetImageFromUrl(profileImage).execute(photo);
+
+                            Log.d("Plant: ", response.toString());
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

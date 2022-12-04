@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
 import com.greenhouse.greenhouseapp.controller.UserControl;
 import com.greenhouse.greenhouseapp.model.User;
 
@@ -91,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         spinnerCity = findViewById(R.id.spinnerCity);
         etStreet = findViewById(R.id.etStreet);
 
-        String URL = "http://10.42.16.192/greenhousedb/populateCountries.php";
+        String URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/populateCountries.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URL,
@@ -175,7 +176,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
          */
 
         //Hardcode
-        String photo = "http://10.42.16.192/greenhousedb/user_uploads/image.jpg";
+        String photo = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/user_uploads/image.jpg";
         String isBlocked = "false";
 
         String address = spinnerCountry.getSelectedItem().toString() + ", " +
@@ -227,7 +228,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             stateList.clear();
             String selectedCountry = parent.getSelectedItem().toString();
             requestQueueSpin = Volley.newRequestQueue(RegisterActivity.this);
-            String URL = "http://10.42.16.192/greenhousedb/populateStates.php?name=" + selectedCountry;
+            String URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/populateStates.php?name=" + selectedCountry;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
                     URL,
@@ -274,7 +275,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             cityList.clear();
             String selectedState = parent.getSelectedItem().toString();
             requestQueueSpin = Volley.newRequestQueue(RegisterActivity.this);
-            String URL = "http://10.42.16.192/greenhousedb/populateCities.php?name=" + selectedState;
+            String URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/populateCities.php?name=" + selectedState;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.GET,
                     URL,

@@ -17,8 +17,8 @@ public class UserControl{
 
     RequestQueue requestQueue;
 
-    private static final String URLSAVE = "http://10.42.16.192/greenhousedb/saveUser.php";
-    private static final String URLBLOCK = "http://10.42.16.192/greenhousedb/blockUser.php";
+    private static final String URLSAVE = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/saveUser.php";
+    private static final String URLBLOCK = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/blockUser.php";
 
     public void createUser(final String name, final String email, final String password, final String address,final String photo, final String isBlocked, Context context ) {
 

@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
 
     RequestQueue requestQueue;
 
-    private static final String URLDB = "http://10.42.16.192/greenhousedb/savePlant.php";
+    private static final String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/savePlant.php";
 
 
     @Override
@@ -73,7 +74,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
             //String photos = etPhotos.getText().toString().trim();
 
             //HARDCODE
-            String photos = "http://10.42.16.192/greenhousedb/user_uploads/cabbage.png";
+            String photos = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/user_uploads/cabbage.png";
 
             createPlant(name, type, origin, photos);
             sendToMenu();

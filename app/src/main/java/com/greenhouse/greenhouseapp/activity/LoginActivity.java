@@ -7,6 +7,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
 import com.greenhouse.greenhouseapp.controller.SessionManagement;
 import com.greenhouse.greenhouseapp.model.User;
 
@@ -92,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             try {
                 encryptedPassword = encrypt(password);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace();a
             }
 
 
@@ -103,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
             //BREAK ENTER--------------
-            sendToMenu(45);
+            //sendToMenu(45);
 
 
         } else if (id == R.id.btnRegister) {
@@ -168,8 +170,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //C:\xampp\htdocs\greenhousedb
     public void login(String email, String encryptedPassword) {
-        String URLDB = "http://10.42.16.192/greenhouseDB/login.php?email=" + email + "&password=" + encryptedPassword;
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/login.php?email=" + email + "&password=" + encryptedPassword;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 URLDB,
@@ -204,6 +207,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("XD","LOGIN ERROR: " + error);
                         Toast.makeText(LoginActivity.this, "Authentication Error", Toast.LENGTH_SHORT).show();
                     }
                 }
