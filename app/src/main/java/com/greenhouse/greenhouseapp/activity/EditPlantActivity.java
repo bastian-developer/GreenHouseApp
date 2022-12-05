@@ -48,7 +48,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
     String plantID, userID;
     ImageView image;
     Button btnEditPlant, bntUploadImage;
-    EditText etName, etType, etOrigin;
+    EditText etName, etType, etOrigin, etWaterSpent,etTemperature, etHumidity,etWater, etLight;
     Bitmap bitmap, bitmapIcon;
     RequestQueue requestQueue;
 
@@ -79,6 +79,12 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
         etType = findViewById(R.id.etType);
         etOrigin = findViewById(R.id.etOrigin);
 
+        etWaterSpent = findViewById(R.id.etWaterSpent);
+        etTemperature = findViewById(R.id.etTemperature);
+        etHumidity = findViewById(R.id.etHumidity);
+        etWater = findViewById(R.id.etWater);
+        etLight = findViewById(R.id.etLight);
+
         btnEditPlant = findViewById(R.id.btnEditPlant);
         bntUploadImage = findViewById(R.id.btnUploadImage);
         image = findViewById(R.id.image);
@@ -95,7 +101,12 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
             String type = etType.getText().toString().trim();
             String origin = etOrigin.getText().toString().trim();
 
-            editPlant(name, type, origin);
+            String temperature = etTemperature.getText().toString().trim();
+            String humidity = etHumidity.getText().toString().trim();
+            String water = etWater.getText().toString().trim();
+            String light = etLight.getText().toString().trim();
+
+            editPlant(name, type, origin, temperature, humidity, water, light);
             sendToPlantList();
             Toast.makeText(this, "Plant Updated", Toast.LENGTH_SHORT).show();
 
@@ -184,7 +195,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
         return encodedImage;
     }
 
-    private void editPlant(final String name, final String type, final String origin) {
+    private void editPlant(final String name, final String type, final String origin, final String temperature, final String humidity, final String water, final String light) {
         String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/editPlant.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -213,6 +224,10 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                 params.put("name", name);
                 params.put("type", type);
                 params.put("origin", origin);
+                params.put("temperature", temperature);
+                params.put("humidity", humidity);
+                params.put("water", water);
+                params.put("light", light);
                 return params;
             }
         };
@@ -230,12 +245,17 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onResponse(JSONObject response) {
-                        String name, type, origin, photo;
+                        String name, type, origin, photo, temperature, humidity, water, light, waterSpent;
                         try{
                             name = response.getString("name");
                             type = response.getString("type");
                             origin = response.getString("origin");
                             photo = response.getString("photos");
+                            waterSpent = response.getString("waterSpent");
+                            temperature = response.getString("temperature");
+                            humidity = response.getString("humidity");
+                            water = response.getString("water");
+                            light = response.getString("light");
 
                             //Toast.makeText(EditPlantActivity.this, name, Toast.LENGTH_SHORT).show();
 
@@ -245,6 +265,13 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                             etOrigin.setText(origin);
 
                             new GetImageFromUrl(image).execute(photo);
+
+                            etWaterSpent.setText(waterSpent);
+                            etTemperature.setText(temperature);
+                            etHumidity.setText(humidity);
+                            etWater.setText(water);
+                            etLight.setText(light);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

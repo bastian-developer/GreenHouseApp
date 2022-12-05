@@ -48,7 +48,7 @@ public class PlantInfoActivity extends AppCompatActivity implements View.OnClick
     String plantID, userID;
     ImageView image;
     Button btnCopyPlant;
-    TextView etName, etType, etOrigin;
+    TextView etName, etType, etOrigin, etWaterSpent,etTemperature, etHumidity,etWater, etLight;
     Bitmap bitmap, bitmapIcon;
     RequestQueue requestQueue;
 
@@ -77,6 +77,12 @@ public class PlantInfoActivity extends AppCompatActivity implements View.OnClick
         etName = findViewById(R.id.etName);
         etType = findViewById(R.id.etType);
         etOrigin = findViewById(R.id.etOrigin);
+
+        etWaterSpent = findViewById(R.id.etWaterSpent);
+        etTemperature = findViewById(R.id.etTemperature);
+        etHumidity = findViewById(R.id.etHumidity);
+        etWater = findViewById(R.id.etWater);
+        etLight = findViewById(R.id.etLight);
 
         btnCopyPlant = findViewById(R.id.btnCopyPlant);
         image = findViewById(R.id.image);
@@ -144,13 +150,18 @@ public class PlantInfoActivity extends AppCompatActivity implements View.OnClick
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onResponse(JSONObject response) {
-                        String name, type, origin, photo;
+                        String name, type, origin, photo, temperature, humidity, water, light, waterSpent;
                         try{
                             name = response.getString("name");
                             type = response.getString("type");
                             origin = response.getString("origin");
                             photo = response.getString("photos");
 
+                            waterSpent = response.getString("waterSpent");
+                            temperature = response.getString("temperature");
+                            humidity = response.getString("humidity");
+                            water = response.getString("water");
+                            light = response.getString("light");
 
 
                             etName.setText(name);
@@ -158,6 +169,12 @@ public class PlantInfoActivity extends AppCompatActivity implements View.OnClick
                             etOrigin.setText(origin);
 
                             new PlantInfoActivity.GetImageFromUrl(image).execute(photo);
+
+                            etWaterSpent.setText(waterSpent);
+                            etTemperature.setText(temperature);
+                            etHumidity.setText(humidity);
+                            etWater.setText(water);
+                            etLight.setText(light);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

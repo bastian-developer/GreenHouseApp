@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class PlantActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText etName, etType, etOrigin, etPhotos;
+    EditText etName, etType, etOrigin, etPhotos, etWaterSpent,etTemperature, etHumidity,etWater, etLight;;
     Button btnCreatePlant;
     String userId;
 
@@ -55,6 +55,12 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
         etOrigin = findViewById(R.id.etOrigin);
         //etPhotos = findViewById(R.id.etPhotos);
 
+        etWaterSpent = findViewById(R.id.etWaterSpent);
+        etTemperature = findViewById(R.id.etTemperature);
+        etHumidity = findViewById(R.id.etHumidity);
+        etWater = findViewById(R.id.etWater);
+        etLight = findViewById(R.id.etLight);
+
         btnCreatePlant = findViewById(R.id.btnCreatePlant);
 
 
@@ -71,12 +77,17 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
             String type = etType.getText().toString().trim();
             String origin = etOrigin.getText().toString().trim();
 
+            String temperature = etTemperature.getText().toString().trim();
+            String humidity = etHumidity.getText().toString().trim();
+            String water = etWater.getText().toString().trim();
+            String light = etLight.getText().toString().trim();
+
             //String photos = etPhotos.getText().toString().trim();
 
             //HARDCODE
             String photos = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/user_uploads/cabbage.png";
 
-            createPlant(name, type, origin, photos);
+            createPlant(name, type, origin, photos, "0", temperature, humidity, water,light);
             sendToMenu();
 
         }
@@ -92,7 +103,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
         startActivity(i);
     }
 
-    private void createPlant(final String name, final String type, final String origin, final String photos) {
+    private void createPlant(final String name, final String type, final String origin, final String photos, final String waterSpent, final String temperature, final String humidity, final String water, final String light) {
 
         requestQueue = Volley.newRequestQueue(PlantActivity.this);
 
@@ -122,6 +133,12 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
                 params.put("type", type);
                 params.put("origin", origin);
                 params.put("photos", photos);
+                params.put("waterSpent", waterSpent);
+                params.put("temperature", temperature);
+                params.put("humidity", humidity);
+                params.put("water", water);
+                params.put("light", light);
+
                 return params;
             }
         };

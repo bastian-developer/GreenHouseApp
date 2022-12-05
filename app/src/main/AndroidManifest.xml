@@ -34,11 +34,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
         tools:replace="android:usesCleartextTraffic"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenHouseApp"
         tools:targetApi="31">

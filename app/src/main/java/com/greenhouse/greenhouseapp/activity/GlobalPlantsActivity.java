@@ -92,7 +92,8 @@ public class GlobalPlantsActivity extends AppCompatActivity {
 
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                String id, userId, name, type, origin, photos;
+                                String id, userId, name, type, origin, photos,$waterSpent, $temperature, $humidity, $water, $light;
+                                int waterSpent, temperature, humidity, water, light;
 
 
                                 id = jsonObject.optString("id");
@@ -102,10 +103,24 @@ public class GlobalPlantsActivity extends AppCompatActivity {
                                 origin = jsonObject.optString("origin");
                                 photos = jsonObject.optString("photos");
 
+                                //Stats
+                                $waterSpent = jsonObject.optString("waterSpent");
+                                $temperature = jsonObject.optString("temperature");
+                                $humidity = jsonObject.optString("humidity");
+                                $water = jsonObject.optString("water");
+                                $light = jsonObject.optString("light");
+
+                                waterSpent = Integer.parseInt($waterSpent);
+                                temperature = Integer.parseInt($temperature);
+                                humidity = Integer.parseInt($humidity);
+                                water = Integer.parseInt($water);
+                                light = Integer.parseInt($light);
+
+
                                 //Toast.makeText(PlantListActivity.this, userID, Toast.LENGTH_SHORT).show();
 
 
-                                plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));
+                                plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos, waterSpent, temperature, humidity, water, light));
 
 
                                 _switch = true;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,77 +10,239 @@
     tools:context=".activity.PlantActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="@string/text_plants"
         android:textColor="@color/lightGreen"
         android:textSize="50sp"
         android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etName"
-        android:hint="@string/text_name"
-        android:textSize="25sp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:inputType="text" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etType"
-        android:hint="@string/text_type"
-        android:textSize="25sp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:inputType="text" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etOrigin"
-        android:hint="@string/text_origin"
-        android:textSize="25sp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/lightGreen"
-        android:layout_marginBottom="40dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:inputType="text"/>
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="10dp" />
 
     <ImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profileImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/image2"
+        android:layout_width="85dp"
+        android:layout_height="84dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
+        android:src="@drawable/temperature"
+        app:civ_border_color="@color/lightGreen"
         app:civ_border_width="3dp"
-        app:civ_border_color="@color/lightGreen"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516" />
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@drawable/humidity"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.669" />
+
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@drawable/water"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.519" />
+
+    <ImageView
+        android:id="@+id/image5"
+        android:layout_width="85dp"
+        android:layout_height="84dp"
+        android:layout_gravity="center"
+        android:src="@drawable/light"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.638"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.667" />
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="@string/text_name"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.137" />
+
+    <EditText
+        android:id="@+id/etType"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="@string/text_type"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.248" />
+
+
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="190dp"
+        android:layout_height="163dp"
+        android:layout_gravity="center"
+        android:src="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.205" />
+
+    <EditText
+        android:id="@+id/etOrigin"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="@string/text_origin"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.354" />
+
+    <EditText
+        android:id="@+id/etTemperature"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="100°"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.518" />
+
+    <EditText
+        android:id="@+id/etHumidity"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="100%"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.673" />
+
+    <EditText
+        android:id="@+id/etWater"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="100%"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <EditText
+        android:id="@+id/etLight"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:hint="24h"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/lightGreen"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.673" />
 
     <Button
+        android:id="@+id/btnCreatePlant"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/btnCreatePlant"
-        android:text="@string/text_create_plant"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginBottom="30dp"
         android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
+        android:layout_marginStart="8dp"
+        android:backgroundTint="@color/lightGreen"
+        android:text="@string/text_create_plant"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.827" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

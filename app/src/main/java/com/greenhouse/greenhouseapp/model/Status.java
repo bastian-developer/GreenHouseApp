@@ -8,10 +8,9 @@ public class Status {
     private float _airTemperature;
     private float _airHumidity;
     private float _soilHumidity;
-    private float _ambientLight;
     private float _waterQuantity;
-    private float _airQuality;
-    private static int autoIncrement = 1;
+    private float _lightQuantity;
+    //private static int autoIncrement = 1;
 
     public int get_id() {
         return _id;
@@ -53,14 +52,6 @@ public class Status {
         this._airHumidity = _airHumidity;
     }
 
-    public float get_ambientLight() {
-        return _ambientLight;
-    }
-
-    public void set_ambientLight(float _ambientLight) {
-        this._ambientLight = _ambientLight;
-    }
-
     public float get_waterQuantity() {
         return _waterQuantity;
     }
@@ -77,12 +68,12 @@ public class Status {
         this._soilHumidity = _soilHumidity;
     }
 
-    public float get_airQuality() {
-        return _airQuality;
+    public float get_lightQuantity() {
+        return _lightQuantity;
     }
 
-    public void set_airQuality(float _airQuality) {
-        this._airQuality = _airQuality;
+    public void set__lightQuantity(float _lightQuantity) {
+        this._lightQuantity = _lightQuantity;
     }
 
     public Status() {
@@ -90,25 +81,25 @@ public class Status {
 
     //Current Sensors
     public Status(int _id, int _idPlant, String _name, float _airTemperature, float _airHumidity) {
-        this._id = autoIncrement;
+        //this._id = autoIncrement;
         this._id = _idPlant;
         this._name = _name;
         this._airTemperature = _airTemperature;
         this._airHumidity = _airHumidity;
-        autoIncrement++;
+        //autoIncrement++;
     }
 
     //All Sensors
-    public Status(int _id, String _name, float _airTemperature, float _airHumidity, float _soilHumidity, float _ambientLight, float _waterQuantity, float _airQuality) {
-        this._id = autoIncrement;
+    public Status(int _id, String _name, float _airTemperature, float _airHumidity, float _soilHumidity, float _waterQuantity, float _lightQuantity) {
+        //this._id = autoIncrement;
+        this._id = _id;
         this._name = _name;
         this._airTemperature = _airTemperature;
         this._airHumidity = _airHumidity;
         this._soilHumidity = _soilHumidity;
-        this._ambientLight = _ambientLight;
         this._waterQuantity = _waterQuantity;
-        this._airQuality = _airQuality;
-        autoIncrement++;
+        this._lightQuantity = _lightQuantity;
+        //autoIncrement++;
     }
 
     @Override
@@ -119,9 +110,8 @@ public class Status {
                 ", _airTemperature=" + _airTemperature +
                 ", _airHumidity=" + _airHumidity +
                 ", _soilHumidity=" + _soilHumidity +
-                ", _ambientLight=" + _ambientLight +
                 ", _waterQuantity=" + _waterQuantity +
-                ", _airQuality=" + _airQuality +
+                ", _lightQuantity=" + _lightQuantity +
                 '}';
     }
 }

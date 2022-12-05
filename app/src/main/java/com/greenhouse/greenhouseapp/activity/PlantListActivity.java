@@ -107,7 +107,7 @@ public class PlantListActivity extends AppCompatActivity {
 
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                String id, userId, name, type, origin, photos;
+                                String id, userId, name, type, origin, photos, waterSpent, temperature, humidity, water, light;
 
                                 id = jsonObject.optString("id");
                                 userId = jsonObject.optString("userId");
@@ -116,7 +116,15 @@ public class PlantListActivity extends AppCompatActivity {
                                 origin = jsonObject.optString("origin");
                                 photos = jsonObject.optString("photos");
 
-                                Plant plantita = new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos);
+                                //Stats
+                                waterSpent = jsonObject.optString("waterSpent");
+                                temperature = jsonObject.optString("temperature");
+                                humidity = jsonObject.optString("humidity");
+                                water = jsonObject.optString("water");
+                                light = jsonObject.optString("light");
+
+
+                                Plant plantita = new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos, Integer.parseInt(waterSpent), Integer.parseInt(temperature), Integer.parseInt(humidity), Integer.parseInt(water), Integer.parseInt(light));
 
                                 //plantList.add(new Plant(Integer.parseInt(id),Integer.parseInt(userId), name, type, origin, photos));
 
