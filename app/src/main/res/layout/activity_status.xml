@@ -1,30 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.statusActivity"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
     android:padding="10dp"
     android:background="@color/black"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    >
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Growing"
-        android:textColor="@color/lightGreen"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
+    tools:context=".activity.statusActivity">
 
     <!--
     <TextView
@@ -39,56 +23,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp" />
     !-->
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvTemperature"
-        android:text="Temperature: 0°C"
-        android:textSize="35sp"
-        android:textColor="@color/darkGreen"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvHumidity"
-        android:text="Humidity: 0%"
-        android:textSize="35sp"
-        android:textColor="@color/darkGreen"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:gravity="center"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMoisture"
-        android:text="Moisture: 0%"
-        android:textSize="35sp"
-        android:textColor="@color/darkGreen"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:gravity="center"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvArduinoInfo"
-        android:text=""
-        android:textSize="35sp"
-        android:textColor="@color/darkGreen"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:gravity="center"/>
 
     <!--
 
@@ -119,64 +53,297 @@
 
     !-->
 
-    <Spinner
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerDevices"/>
+        android:gravity="center_horizontal"
+        android:text="Stats"
+        android:textColor="@color/lightGreen"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.024" />
 
+    <!--
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/btnConnect"
-        android:text="Connect"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:id="@+id/btnFan"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="25dp"
+        android:backgroundTint="@color/lightGreen"
         android:text="Fan"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="589dp" />
+    -->
+
+    <!--
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:id="@+id/btnLights"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="25dp"
+        android:backgroundTint="@color/lightGreen"
         android:text="Lights"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="335dp" />
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
         android:id="@+id/btnWaterPump"
-        android:text="WaterPump"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
-    <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/btnNotification"
-        android:text="Notification"
-        android:backgroundTint="@color/lightGreen"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="25dp"
-        android:textColor="@color/black"/>
+        android:backgroundTint="@color/lightGreen"
+        android:text="WaterPump"
+        android:textColor="@color/black"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="424dp" />
+    -->
+
+    <TextView
+        android:id="@+id/tvMenu"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="---------------------------"
+        android:textColor="@color/darkGreen"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.585"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.749" />
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0°C"
+        android:textColor="@color/darkGreen"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.363" />
+
+    <TextView
+        android:id="@+id/tvHumidity"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0%"
+        android:textColor="@color/darkGreen"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <TextView
+        android:id="@+id/tvMoisture"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0%"
+        android:textColor="@color/darkGreen"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
 
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvTemperature2"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0°C"
+        android:textColor="@color/red"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
 
-</ScrollView>
+    <TextView
+        android:id="@+id/tvHumidity2"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0%"
+        android:textColor="@color/red"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <TextView
+        android:id="@+id/tvMoisture2"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="0%"
+        android:textColor="@color/red"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.658" />
+
+    <Spinner
+        android:id="@+id/spinnerDevices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.142" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="25dp"
+        android:backgroundTint="@color/lightGreen"
+        android:text="Connect"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.742"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.213" />
+
+    <ImageButton
+        android:id="@+id/btnFan"
+        android:layout_width="91dp"
+        android:layout_height="93dp"
+        android:background="#000000"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.909"
+        app:srcCompat="@drawable/fan" />
+
+    <ImageButton
+        android:id="@+id/btnLights"
+        android:layout_width="123dp"
+        android:layout_height="113dp"
+        android:backgroundTint="#000000"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.948"
+        app:srcCompat="@drawable/illumination" />
+
+    <ImageButton
+        android:id="@+id/btnWaterPump"
+        android:layout_width="117dp"
+        android:layout_height="113dp"
+        android:backgroundTint="#000000"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.925"
+        app:srcCompat="@drawable/watering" />
+
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="85dp"
+        android:layout_height="84dp"
+        android:layout_gravity="center"
+        android:src="@drawable/temperature"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.36" />
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@drawable/humidity"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516" />
+
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:src="@drawable/water"
+        app:civ_border_color="@color/lightGreen"
+        app:civ_border_width="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.669" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

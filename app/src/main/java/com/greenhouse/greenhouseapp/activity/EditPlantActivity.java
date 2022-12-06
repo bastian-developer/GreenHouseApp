@@ -47,10 +47,10 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
 
     String plantID, userID;
     ImageView image;
-    Button btnEditPlant, bntUploadImage;
+    Button btnEditPlant, bntUploadImage, btnMakeActive;
     EditText etName, etType, etOrigin, etWaterSpent,etTemperature, etHumidity,etWater, etLight;
     Bitmap bitmap, bitmapIcon;
-    RequestQueue requestQueue;
+    RequestQueue requestQueue, requestQueue2;
 
     public static final String UPLOAD_URL = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/savePlantImage.php";
     public static final String UPLOAD_KEY = "image";
@@ -62,6 +62,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_edit_plant);
 
         requestQueue = Volley.newRequestQueue(EditPlantActivity.this);
+        requestQueue2 = Volley.newRequestQueue(EditPlantActivity.this);
 
         Bundle extras = getIntent().getExtras();
         userID = extras.getString("id");
@@ -73,6 +74,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
 
         btnEditPlant.setOnClickListener(this);
         bntUploadImage.setOnClickListener(this);
+        btnMakeActive.setOnClickListener(this);
     }
     private void initUI() {
         etName = findViewById(R.id.etName);
@@ -87,6 +89,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
 
         btnEditPlant = findViewById(R.id.btnEditPlant);
         bntUploadImage = findViewById(R.id.btnUploadImage);
+        btnMakeActive = findViewById(R.id.btnMakeActive);
         image = findViewById(R.id.image);
     }
 
@@ -116,8 +119,56 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
 
             chooseFile();
 
+        }else if (id == R.id.btnMakeActive) {
+
+            String statusId = "3";
+            String temperature = etTemperature.getText().toString().trim();
+            String humidity = etHumidity.getText().toString().trim();
+            String water = etWater.getText().toString().trim();
+            String light = etLight.getText().toString().trim();
+
+
+            updateStatus(statusId, temperature, humidity, water, light);
+
         }
 
+    }
+
+    private void updateStatus(final String statusId, final String temperature, final String humidity, final String water, final String light) {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/updateStatus.php";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                URLDB,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Toast.makeText(EditPlantActivity.this, "New Active Plant", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(EditPlantActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            //nullable
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", statusId);
+                params.put("airTemperature", temperature);
+                params.put("airHumidity", humidity);
+                params.put("soilHumidity", water);
+                params.put("ambientLight", light);
+                return params;
+            }
+        };
+
+        requestQueue2.add(stringRequest);
     }
 
     private void chooseFile(){
@@ -204,7 +255,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(String response) {
 
-                        finish();
+                        //finish();
                     }
                 },
                 new Response.ErrorListener() {

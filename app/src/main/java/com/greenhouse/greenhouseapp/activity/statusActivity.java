@@ -1,5 +1,6 @@
 package com.greenhouse.greenhouseapp.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -25,11 +26,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
+import com.greenhouse.greenhouseapp.controller.Connection;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,16 +65,21 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     int moisture = 0;
     int value = 0;
 
+    String airTemperature, airHumidity, soilHumidity, ambientLight;
+
+    RequestQueue requestQueue;
+
     //UI VARIABLES
-    TextView tvArduinoInfo;
     TextView tvTemperature;
     TextView tvHumidity;
     TextView tvMoisture;
+    TextView tvTemperature2;
+    TextView tvHumidity2;
+    TextView tvMoisture2;
     Button btnConnect;
-    Button btnWaterPump;
-    Button btnFan;
-    Button btnLights;
-    Button btnNotification;
+    ImageButton btnWaterPump;
+    ImageButton btnFan;
+    ImageButton btnLights;
     Spinner spinnerDevices;
 
     //NOTIFICATION VARIABLES
@@ -99,6 +116,8 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
+        requestQueue = Volley.newRequestQueue(statusActivity.this);
+
         Log.d(TAG, "onCreate Start");
 
         //Retrieve User ID
@@ -111,10 +130,11 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         btnWaterPump.setOnClickListener(this);
         btnFan.setOnClickListener(this);
         btnLights.setOnClickListener(this);
-        btnNotification.setOnClickListener(this);
 
         //Get BT Paired Devices
         getBTPairedDevices();
+
+        searchStatus();
 
     }
 
@@ -143,15 +163,16 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initUI() {
-        tvArduinoInfo = findViewById(R.id.tvArduinoInfo);
         tvTemperature = findViewById(R.id.tvTemperature);
         tvHumidity = findViewById(R.id.tvHumidity);
         tvMoisture = findViewById(R.id.tvMoisture);
+        tvTemperature2 = findViewById(R.id.tvTemperature2);
+        tvHumidity2 = findViewById(R.id.tvHumidity2);
+        tvMoisture2 = findViewById(R.id.tvMoisture2);
         btnConnect = findViewById(R.id.btnConnect);
         btnWaterPump = findViewById(R.id.btnWaterPump);
         btnFan = findViewById(R.id.btnFan);
         btnLights = findViewById(R.id.btnLights);
-        btnNotification = findViewById(R.id.btnNotification);
         spinnerDevices = findViewById(R.id.spinnerDevices);
     }
 
@@ -288,10 +309,6 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(getApplicationContext(), "Lights ON", Toast.LENGTH_SHORT).show();
                 lightsSwitch = 0;
             }
-        }else if (id == R.id.btnNotification) {
-
-            sendNotification("Notification Button");
-
         }
 
     }
@@ -590,9 +607,9 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         //if (keyCharacter.equals("T") && value >= 0) {
         if (keyCharacter.equals("T")) {
             temperature = value;
-            tvTemperature.setText("Temperature: " + temperature + "°C");
+            tvTemperature.setText(temperature + "°C");
 
-            if (temperature > 30) {
+            if (temperature > Integer.valueOf(airTemperature)) {
                 sendNotification("High temperature level");
                 //Turn ON Fan
                 sendMessage("3", BTSocket);
@@ -602,21 +619,21 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         //} else if (keyCharacter.equals("H") && value >= 0) {
         } else if (keyCharacter.equals("H")) {
             humidity = value;
-            tvHumidity.setText("Humidity: " + humidity + "%");
+            tvHumidity.setText(humidity + "%");
 
-            if (humidity < 10) {
+            if (humidity < Integer.valueOf(airHumidity)) {
                 sendNotification("Low humidity level");
             }
-            if (humidity > 90) {
+            if (humidity > Integer.valueOf(airHumidity)) {
                 sendNotification("High humidity level");
             }
 
         //} else if (keyCharacter.equals("M") && value >= 0) {
         } else if (keyCharacter.equals("M")) {
             moisture = value;
-            tvMoisture.setText("Moisture: " + moisture + "%");
+            tvMoisture.setText(moisture + "%");
 
-            if (moisture < 30) {
+            if (moisture < Integer.valueOf(soilHumidity)) {
                 sendNotification("Hechale awita a la plantita");
                 //Turn water pump on
                 sendMessage("5", BTSocket);
@@ -628,8 +645,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
             }
 
         } else if (!message.replaceAll("�", "").trim().equals("")) {
-            tvArduinoInfo.setText(message.replaceAll("�", "").trim());
-            //tvArduinoInfo.append(tempMsg);
+            Toast.makeText(getApplicationContext(), message.replaceAll("�", "").trim(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -646,7 +662,6 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
             {
                 try {
                     cBTInitSendReceive.write(sMessage.getBytes());
-                    //tvArduinoInfo.append("\r\n-> " + sMessage);
                     Log.d(TAG, "sendMessage function " + sMessage);
                 }
                 catch (Exception exp)
@@ -657,7 +672,48 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         }
         else {
             Toast.makeText(getApplicationContext(), "Please connect to bluetooth", Toast.LENGTH_SHORT).show();
-            tvArduinoInfo.append("\r\n Not connected to bluetooth");
         }
+    }
+
+    private void searchStatus() {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchStatus.php?id=3";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URLDB,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try{
+                            airTemperature = response.getString("airTemperature");
+                            airHumidity = response.getString("airHumidity");
+                            soilHumidity = response.getString("soilHumidity");
+                            ambientLight = response.getString("ambientLight");
+
+                            //Toast.makeText(EditPlantActivity.this, name, Toast.LENGTH_SHORT).show();
+
+                            tvTemperature2.setText(airTemperature + "°C");
+                            tvHumidity2.setText(airHumidity + "%");
+                            tvMoisture2.setText(soilHumidity + "%");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(statusActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Log.d("STATUS ERROR", error.toString());
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
     }
 }
