@@ -89,9 +89,12 @@ public class StatisticsActivity extends AppCompatActivity {
 
         searchTotalPlantsUser();
         searchTotalWaterUser();
+        searchAverageWaterUser();
 
         searchTotalPlantsTotal();
         searchTotalWaterTotal();
+        searchAverageWaterTotal();
+
 
     }
 
@@ -161,6 +164,40 @@ public class StatisticsActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void searchAverageWaterUser() {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchAverageWaterUser.php?id=" + userID;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URLDB,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String averageWaterUser;
+                        try{
+                            averageWaterUser = response.getString("AVG(waterSpent)");
+                            etAverageWaterUser.setText(averageWaterUser);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(StatisticsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
 
     private void searchTotalPlantsTotal() {
         String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchTotalPlantsTotal.php";
@@ -213,6 +250,39 @@ public class StatisticsActivity extends AppCompatActivity {
 
 
                             etTotalWaterTotal.setText(totalWaterTotal);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(StatisticsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void searchAverageWaterTotal() {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchAverageWaterTotal.php";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URLDB,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String averageWaterTotal;
+                        try{
+                            averageWaterTotal = response.getString("AVG(waterSpent)");
+                            etAverageWaterTotal.setText(averageWaterTotal);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
