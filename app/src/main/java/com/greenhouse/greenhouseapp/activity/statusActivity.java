@@ -1,5 +1,6 @@
 package com.greenhouse.greenhouseapp.activity;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -31,11 +32,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.greenhouse.greenhouseapp.R;
 import com.greenhouse.greenhouseapp.controller.Connection;
@@ -47,6 +50,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -57,6 +63,8 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     String userId;
     String keyCharacter;
     String temporalValue;
+    String plantID;
+    String waterSpent;
     int fanSwitch = 0;
     int lightsSwitch = 0;
     int waterPumpSwitch = 0;
@@ -64,10 +72,16 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
     int humidity = 0;
     int moisture = 0;
     int value = 0;
+    int seconds = 0;
+    int waterPerSecond = 28;
+    int $waterSpent = 0;
+
+
+    Date startDate, endDate;
 
     String airTemperature, airHumidity, soilHumidity, ambientLight;
 
-    RequestQueue requestQueue;
+    RequestQueue requestQueue, requestQueue2;
 
     //UI VARIABLES
     TextView tvTemperature;
@@ -117,6 +131,8 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_status);
 
         requestQueue = Volley.newRequestQueue(statusActivity.this);
+
+        requestQueue2 = Volley.newRequestQueue(statusActivity.this);
 
         Log.d(TAG, "onCreate Start");
 
@@ -262,6 +278,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "BTN SEND CLICKED");
                 Toast.makeText(getApplicationContext(), "Water ON", Toast.LENGTH_SHORT).show();
                 waterPumpSwitch = 1;
+                startDate = new Date();
 
             } else {
 
@@ -270,6 +287,19 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "BTN SEND CLICKED");
                 Toast.makeText(getApplicationContext(), "Water OFF", Toast.LENGTH_SHORT).show();
                 waterPumpSwitch = 0;
+
+                endDate = new Date();
+
+                seconds = (int)((endDate.getTime() - startDate.getTime()) / 1000);
+
+                $waterSpent = seconds * waterPerSecond;
+                waterSpent = Integer.toString($waterSpent);
+
+                updateWater(plantID, waterSpent);
+
+                Log.e("Seconds of water", Integer.toString(seconds));
+                //Toast.makeText(getApplicationContext(), Integer.toString(seconds), Toast.LENGTH_SHORT).show();
+
             }
 
         }else if (id == R.id.btnFan) {
@@ -634,14 +664,38 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
             tvMoisture.setText(moisture + "%");
 
             if (moisture < Integer.valueOf(soilHumidity)) {
-                sendNotification("Hechale awita a la plantita");
-                //Turn water pump on
-                sendMessage("5", BTSocket);
-                waterPumpSwitch = 1;
+
+                if (waterPumpSwitch == 0) {
+
+                    sendNotification("Hechale awita a la plantita");
+                    //Turn water pump on
+                    sendMessage("5", BTSocket);
+                    waterPumpSwitch = 1;
+                    startDate = new Date();
+
+                }
+
+
             } else {
-                //Turn water pump off
-                sendMessage("6", BTSocket);
-                waterPumpSwitch = 0;
+
+                if (waterPumpSwitch == 1) {
+                    //Turn water pump off
+                    sendMessage("6", BTSocket);
+                    waterPumpSwitch = 0;
+                    endDate = new Date();
+
+                    seconds = (int)((endDate.getTime() - startDate.getTime()) / 1000);
+
+                    $waterSpent = seconds * waterPerSecond;
+                    waterSpent = Integer.toString($waterSpent);
+
+                    updateWater(plantID, waterSpent);
+
+                    Log.e("Seconds of watering", Integer.toString(seconds));
+                    //Toast.makeText(getApplicationContext(), Integer.toString(seconds), Toast.LENGTH_SHORT).show();
+                }
+
+
             }
 
         } else if (!message.replaceAll("�", "").trim().equals("")) {
@@ -687,6 +741,7 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
                     public void onResponse(JSONObject response) {
 
                         try{
+                            plantID = response.getString("name");
                             airTemperature = response.getString("airTemperature");
                             airHumidity = response.getString("airHumidity");
                             soilHumidity = response.getString("soilHumidity");
@@ -715,5 +770,39 @@ public class statusActivity extends AppCompatActivity implements View.OnClickLis
         );
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateWater(final String plantID, final String waterSpent) {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/updateWater.php";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                URLDB,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        //finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(statusActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+        ){
+            //nullable
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id", plantID);
+                params.put("waterSpent", waterSpent);
+                return params;
+            }
+        };
+
+        requestQueue2.add(stringRequest);
     }
 }
