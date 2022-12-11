@@ -91,12 +91,13 @@ public class StatisticsActivity extends AppCompatActivity {
         searchTotalWaterUser();
         searchAverageWaterUser();
         searchMinWaterUser();
+        searchMaxWaterUser();
 
         searchTotalPlantsTotal();
         searchTotalWaterTotal();
         searchAverageWaterTotal();
         searchMinWaterTotal();
-
+        searchMaxWaterTotal();
 
     }
 
@@ -213,6 +214,39 @@ public class StatisticsActivity extends AppCompatActivity {
                         try{
                             minWaterUser = response.getString("MIN(waterSpent)");
                             etMinWaterUser.setText(minWaterUser);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(StatisticsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void searchMaxWaterUser() {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchMaxWaterUser.php?id=" + userID;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URLDB,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String maxWaterUser;
+                        try{
+                            maxWaterUser = response.getString("MAX(waterSpent)");
+                            etMaxWaterUser.setText(maxWaterUser);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -351,6 +385,39 @@ public class StatisticsActivity extends AppCompatActivity {
                         try{
                             minWaterTotal = response.getString("MIN(waterSpent)");
                             etMinWaterTotal.setText(minWaterTotal);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(StatisticsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void searchMaxWaterTotal() {
+        String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/searchMaxWaterTotal.php";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URLDB,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String maxWaterTotal;
+                        try{
+                            maxWaterTotal = response.getString("MAX(waterSpent)");
+                            etMaxWaterTotal.setText(maxWaterTotal);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
