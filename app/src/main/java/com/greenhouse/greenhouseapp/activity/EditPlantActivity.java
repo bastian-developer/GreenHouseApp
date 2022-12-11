@@ -128,13 +128,13 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
             String light = etLight.getText().toString().trim();
 
 
-            updateStatus(statusId, temperature, humidity, water, light);
+            updateStatus(statusId, plantID, temperature, humidity, water, light);
 
         }
 
     }
 
-    private void updateStatus(final String statusId, final String temperature, final String humidity, final String water, final String light) {
+    private void updateStatus(final String statusId, final String plantID, final String temperature, final String humidity, final String water, final String light) {
         String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/updateStatus.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -160,6 +160,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("id", statusId);
+                params.put("plantID", plantID);
                 params.put("airTemperature", temperature);
                 params.put("airHumidity", humidity);
                 params.put("soilHumidity", water);

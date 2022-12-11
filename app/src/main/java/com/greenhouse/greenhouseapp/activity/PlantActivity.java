@@ -40,7 +40,7 @@ public class PlantActivity extends AppCompatActivity implements View.OnClickList
 
         Bundle extras = getIntent().getExtras();
         userId = extras.getString("id");
-        Toast.makeText(PlantActivity.this, userId, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(PlantActivity.this, userId, Toast.LENGTH_SHORT).show();
 
         initUI();
 
