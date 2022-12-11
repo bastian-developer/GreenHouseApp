@@ -19,7 +19,7 @@ import com.greenhouse.greenhouseapp.controller.SessionManagement;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    Button btnLogOut, btnProfile, btnPlant, btnStatus, btnPlants, btnGlobalPlants;
+    Button btnLogOut, btnProfile, btnPlant, btnStatus, btnPlants, btnGlobalPlants, btnStatistics;
     String userId;
 
     @Override
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStatus.setOnClickListener(this);
         btnPlants.setOnClickListener(this);
         btnGlobalPlants.setOnClickListener(this);
+        btnStatistics.setOnClickListener(this);
+
 
 
         //Explicit Bluetooth Permission
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStatus = findViewById(R.id.btnStatus);
         btnPlants = findViewById(R.id.btnPlants);
         btnGlobalPlants = findViewById(R.id.btnGlobalPlants);
+        btnStatistics = findViewById(R.id.btnStatistics);
+
     }
 
     @Override
@@ -92,8 +96,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             sendToGlobalPlants(userId);
 
+        }else if (id == R.id.btnStatistics) {
+
+            sendToStatistics(userId);
+
         }
 
+    }
+
+    public void sendToStatistics(String userId) {
+
+        Intent i = new Intent(MainActivity.this, StatisticsActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userId));
+        i.putExtras(sendData);
+        startActivity(i);
     }
 
 
