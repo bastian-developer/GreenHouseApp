@@ -53,7 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etName, etPassword, etEmail, etPhoto;
-    Button btnEditProfile, bntUploadImage;
+    Button btnEditProfile, bntUploadImage, btnChangePassword;
     RequestQueue requestQueue;
     String AES = "AES";
     String userID;
@@ -82,16 +82,18 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
         btnEditProfile.setOnClickListener(this);
         bntUploadImage.setOnClickListener(this);
+        btnChangePassword.setOnClickListener(this);
 
     }
 
     private void initUI() {
         etName = findViewById(R.id.etName);
-        etPassword = findViewById(R.id.etPassword);
+        //etPassword = findViewById(R.id.etPassword);
         etEmail = findViewById(R.id.etEmail);
         //etPhoto = findViewById(R.id.etPhoto);
         btnEditProfile = findViewById(R.id.btnEditProfile);
         bntUploadImage = findViewById(R.id.btnUploadImage);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
         profileImage = findViewById(R.id.profileImage);
     }
 
@@ -104,17 +106,22 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
             String name = etName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
+            //String password = etPassword.getText().toString().trim();
             //String photo = etPhoto.getText().toString().trim();
 
-            editProfile(name, email, password);
+            //editProfile(name, email, password);
+            editProfile(name, email);
             Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
 
-            sendToMenu();
+            //sendToMenu();
 
         } else if (id == R.id.btnUploadImage) {
 
             chooseFile();
+
+        }else if (id == R.id.btnChangePassword) {
+
+            sendToChangePassword();
 
         }
 
@@ -194,7 +201,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         return encodedImage;
     }
 
-    private void editProfile(final String name, final String email, final String password) {
+    private void editProfile(final String name, final String email) {
         String URLDB = "http://"+ Connection.GLOBAL_IP + "/greenhousedb/editUser.php";
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -202,7 +209,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        finish();
+                        //finish();
                     }
                 },
                 new Response.ErrorListener() {
@@ -220,7 +227,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 params.put("id", userID);
                 params.put("name", name);
                 params.put("email", email);
-                params.put("password", password);
+                //params.put("password", password);
                 //params.put("photo", photo);
                 return params;
             }
@@ -243,12 +250,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                         try{
                             name = response.getString("name");
                             email = response.getString("email");
-                            password = response.getString("password");
+                            //password = response.getString("password");
                             photo = response.getString("photo");
 
                             etName.setText(name);
                             etEmail.setText(email);
-                            etPassword.setText(password);
+                            //etPassword.setText(password);
 
                             new GetImageFromUrl(profileImage).execute(photo);
 
@@ -310,6 +317,16 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     public void sendToMenu() {
         Intent i = new Intent(UserActivity.this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Bundle sendData = new Bundle();
+        sendData.putString("id", String.valueOf(userID));
+        i.putExtras(sendData);
+        startActivity(i);
+    }
+
+    public void sendToChangePassword() {
+        Intent i = new Intent(UserActivity.this, PasswordActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
 
         Bundle sendData = new Bundle();

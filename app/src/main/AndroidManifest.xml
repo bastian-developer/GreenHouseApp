@@ -6,29 +6,34 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <!--BLUETOOTH PERMISSION-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- BLUETOOTH PERMISSION -->
     <!-- Request legacy Bluetooth permissions on older devices. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!-- Needed only if your app looks for Bluetooth devices.
+    <!--
+ Needed only if your app looks for Bluetooth devices.
              If your app doesn't use Bluetooth scan results to derive physical
              location information, you can strongly assert that your app
-             doesn't derive physical location. -->
+             doesn't derive physical location.
+    -->
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-    <!-- Needed only if your app makes the device discoverable to Bluetooth
-      devices. -->
+    <!--
+ Needed only if your app makes the device discoverable to Bluetooth
+      devices.
+    -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-    <!-- Needed only if your app communicates with already-paired Bluetooth
-           devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <!--bibo01 : hardware option-->
-    <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
-
+    <!--
+ Needed only if your app communicates with already-paired Bluetooth
+           devices.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- bibo01 : hardware option -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -36,12 +41,15 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
-        tools:replace="android:usesCleartextTraffic"
         android:roundIcon="@drawable/cabbage_vegetables_vegetable_food_agriculture_icon_220781"
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenHouseApp"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:usesCleartextTraffic"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.PasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.EditPlantActivity"
             android:exported="false" />

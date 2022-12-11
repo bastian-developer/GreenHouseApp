@@ -110,7 +110,7 @@ public class EditPlantActivity extends AppCompatActivity implements View.OnClick
             String light = etLight.getText().toString().trim();
 
             editPlant(name, type, origin, temperature, humidity, water, light);
-            sendToPlantList();
+            //sendToPlantList();
             Toast.makeText(this, "Plant Updated", Toast.LENGTH_SHORT).show();
 
 
